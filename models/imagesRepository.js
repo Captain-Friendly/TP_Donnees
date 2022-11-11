@@ -12,9 +12,15 @@ module.exports =
             super(new ImageModel(), true /* cached */);
             this.setBindExtraDataMethod(this.bindImageURL);
         }
+        /**
+         * pour lier l'image original et le thumbnail
+         * @param {*} image 
+         * @returns 
+         */
         bindImageURL(image) {
             if (image) {
                 let bindedImage = { ...image };
+                // bind aussie le UserId
                 if (image["GUID"] != "") {
                     bindedImage["OriginalURL"] = HttpContext.host + ImageFilesRepository.getImageFileURL(image["GUID"]);
                     bindedImage["ThumbnailURL"] = HttpContext.host + ImageFilesRepository.getThumbnailFileURL(image["GUID"]);
