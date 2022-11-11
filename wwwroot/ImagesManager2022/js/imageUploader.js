@@ -93,15 +93,12 @@ class ImageUploader {
             this.uploadInputImageFile(e);
         });
     }
-
     static clearImageData(id) {
         $("#" + id).val("");
     }
-
     static getImageData(id) {
         return $(`#${id}_Data`).val();
     }
-    
     static setImageData(id, value) {
         $(`#${id}_Data`).val(value);
     }
@@ -112,11 +109,6 @@ class ImageUploader {
         let target = $(`#${id}_ImageContainer`);
         return target.css("background-image").replace(/^url\(['"](.+)['"]\)/, "$1");
     }
-    /**
-     * 
-     * @param {*} id id de l'image
-     * @param {*} required le boolean pour dire si une image est requis
-     */
     static imageRequired(id, required) {
         $(`#${id}_Data`).prop('required', required);
     }

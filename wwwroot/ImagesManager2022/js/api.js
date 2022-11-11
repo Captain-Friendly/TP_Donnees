@@ -1,4 +1,3 @@
-// const apiBaseURL = "https://tp201970761.glitch.me/api/images"; ///WORKS!?
 const apiBaseURL = "http://localhost:5000/api/images";
 
 function HEAD(successCallBack, errorCallBack) {
