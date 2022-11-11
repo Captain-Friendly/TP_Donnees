@@ -300,8 +300,7 @@ function init_UI() {
                 let newUser = userFromForm();
                 if (newUser) {
                     if (createMode) {
-                        // TODO
-                        // 0xffffff
+                        // TODO: ask question on register and PUT(image, getImagesList, error);
                         REGISTER(newUser, getUser, problemWithUser);
                         $(".scrollContainer").scrollTop(0);
                     }
