@@ -300,12 +300,14 @@ function init_UI() {
                 let newUser = userFromForm();
                 if (newUser) {
                     if (createMode) {
-                        POST(newUser, getImagesList, error);
+                        // TODO
+                        // 0xffffff
+                        REGISTER(newUser, getUser, problemWithUser);
                         $(".scrollContainer").scrollTop(0);
                     }
                     else
-                        PUT(image, getImagesList, error);
-                    resetimageForm();
+                        // PUT(image, getImagesList, error);
+                    resetUserForm();
                     holdCheckETag = false;
                     $(this).dialog("close");
                 }
