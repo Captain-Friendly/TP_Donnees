@@ -104,7 +104,8 @@ module.exports =
                 this.HttpContext.response.unprocessable();
         }
 
-        // PUT:account/modify body payload[{"Id": 0, "Name": "...", "Email": "...", "Password": "..."}]
+        // PUT:accounts/modify body payload[{"Id": 0, "Name": "...", "Email": "...", "Password": "..."}]
+        // ad in headers Authorization:acces_token
         modify(user) {
             if (this.writeAuthorization()) {
                 user.Created = utilities.nowInSeconds();
