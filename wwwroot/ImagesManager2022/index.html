@@ -59,7 +59,7 @@
                     </div>
                     
 
-                    <div>
+                    <div class="buttons">
                         <span class="cmd fa fa-plus-square" id="newImageCmd" title="Ajouter un image"
                             data-toggle="tooltip">
                         </span>
@@ -106,6 +106,41 @@
                 </div>
                 <div id="errorDlg">
                     <span id="errorMessage"></span>
+                </div>
+                <div id="newUserDlg">
+                    <form id="newUserForm">
+                        <input type="hidden" id="user_Id_input" value="0">
+                        <input type="hidden" id="created_input" value="0">
+                        <input type="hidden" id="AvatarGUID_input" value="">
+                        <input type="hidden" id="VerifyCode_input" value="0">
+
+                        <label for="name_input">Nom</label>
+                        <input type="text" id="name_input" class="form-control" required>
+
+                        <label for="Email_input">Courriel</label>
+                        <input type="text" id="Email_input" class="form-control" required>
+
+                        <label for="Password_input">Mot de Passe</label>
+                        <input type="text" id="Password_input" class="form-control" required>
+                        
+                        
+                        <label for="image_user">Image</label>
+                        <div id='image_user' class='ImageUploader' defaultImage='images/No_Image.png'
+                            waitingImage='images/writing.gif'>
+                        </div>
+                        <div class="note">Cliquez-Déposez une image</div>
+
+
+                        <!-- 
+                            check -Id int
+                            check -Name string
+                            check -Email (key) string
+                            check -Password string
+                            check -Created int
+                            -VerifyCode string (code de 6 chiffres ou la constante verified)
+                            -AvatarGUID string
+                         -->
+                    </form>
                 </div>
             </div>
         </div>

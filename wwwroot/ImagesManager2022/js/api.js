@@ -1,5 +1,9 @@
-const apiBaseURL = "https://tp201970761.glitch.me/api/images";
-// const apiBaseURL = "http://localhost:5000/api/images";
+const baseURL = "http://localhost:5000";
+// const baseURL = "https://tp201970761.glitch.me";
+
+// const apiBaseURL = "/api/images";
+const apiBaseURL = baseURL + "/api/images";
+const accountURL = baseURL + "/accounts";
 
 function HEAD(successCallBack, errorCallBack) {
     $.ajax({
@@ -7,6 +11,27 @@ function HEAD(successCallBack, errorCallBack) {
         type: 'HEAD',
         contentType: 'text/plain',
         complete: request => { successCallBack(request.getResponseHeader('ETag')) },
+        error: function (jqXHR) { errorCallBack(jqXHR.status) }
+    });
+}
+/*
+{
+    "Id": 4,
+    "Name": "Julian Angel Murillo",
+    "Email": "juliandelapaz2001@gmail.com",
+    "Password": "********",
+    "Created": 1668200346,
+    "VerifyCode": 905218,
+    "AvatarGUID": "",
+    "AvatarURL": ""
+}
+*/
+function REGISTER(user,successCallBack, errorCallBack){
+    $.ajax({
+        url: accountURL+"/"+"register",
+        contentType: 'application/json',
+        data: JSON.stringify(user),
+        success: (data) => { successCallBack(data) },
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }

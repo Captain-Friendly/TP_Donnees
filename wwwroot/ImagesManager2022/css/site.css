@@ -19,9 +19,6 @@ body {
     align-items: center;
 }
 
-#newUserCmd{
-    
-}
 .headerLayout {
     display: grid;
     grid-template-columns: 80px auto 60px;

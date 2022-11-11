@@ -26,5 +26,14 @@
     "Created": 1668185082,
     "VerifyCode": "verified",
     "AvatarGUID": ""
+  },
+  {
+    "Id": 4,
+    "Name": "Julian Angel Murillo",
+    "Email": "juliandelapaz2001@gmail.com",
+    "Password": "123",
+    "Created": 1668200346,
+    "VerifyCode": 905218,
+    "AvatarGUID": ""
   }
 ]

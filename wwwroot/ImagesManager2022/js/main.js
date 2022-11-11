@@ -130,6 +130,18 @@ function newImage() {
     $("#imageDlgOkBtn").text("Ajouter");
     $("#imageDlg").dialog('open');
 }
+
+function newUser() {
+    holdCheckETag = true;
+    createMode = true;
+    resetUserForm();
+    ImageUploader.imageRequired('image_user', true);
+    $("#newUserDlg").dialog('option', 'title', "Creation d'utilisateur");
+    $("#newUserDlgOkBtn").text("Créer");
+    $("#newUserDlg").dialog('open');
+}
+
+
 function editimage(e) {
     holdCheckETag = true;
     createMode = false;
@@ -163,6 +175,18 @@ function resetimageForm() {
     $("#description_input").val("");
     ImageUploader.resetImage('image');
 }
+function resetUserForm() {
+    $("#Id_input").val("0");
+    $("#GUID_input").val("");
+    $("#created_input").val(Date.now());
+
+    $("#name_input").val("");
+    $("#Email_input").val("");
+    $("#Password_input").val("");
+
+    ImageUploader.resetImage('image_user');
+}
+
 function imageFromForm() {
     if ($("#imageForm")[0].checkValidity()) {
         let image = {
@@ -175,10 +199,29 @@ function imageFromForm() {
         };
         return image;
     } else {
-        $("#imageForm")[0].reportValidity()
+        $("#imageForm")[0].reportValidity();
     }
     return false;
 }
+function userFromForm(){
+    if($("#newUserForm")[0].checkValidity()){
+        let newUser = {
+            Id: parseInt($("user_Id_input").val()),
+            Name: $("#name_input").val(),
+            Email: $("#Email_input").val(),
+            Password: $("#Password_input").val(),
+            AvatarGUID:$("#AvatarGUID_input").val(),
+            Created:parseInt($("#created_input").val()),
+            VerifyCode:parseInt($("#VerifyCode_input").val()),
+        };
+        return newUser;
+    }else{
+        $("#newUserForm")[0].reportValidity();
+    }
+}
+// $("#").val()
+
+
 function imageToForm(image) {
     $("#Id_input").val(image.Id);
     $("#GUID_input").val(image.GUID);
@@ -191,7 +234,11 @@ function imageToForm(image) {
 
 
 function init_UI() {
-    $("#newImageCmd").click(newImage)
+    // $("#newImageCmd").click(newImage);
+    $("#newImageCmd").on("click", newImage);
+    $("newUserCmd").on("click", newUser)
+
+
 
     $("#imageDlg").dialog({
         title: "...",
@@ -214,6 +261,46 @@ function init_UI() {
                 if (image) {
                     if (createMode) {
                         POST(image, getImagesList, error);
+                        $(".scrollContainer").scrollTop(0);
+                    }
+                    else
+                        PUT(image, getImagesList, error);
+                    resetimageForm();
+                    holdCheckETag = false;
+                    $(this).dialog("close");
+                }
+            }
+        },
+        {
+            text: "Annuler",
+            click: function () {
+                holdCheckETag = false;
+                $(this).dialog("close");
+            }
+        }]
+    });
+
+    $("#newUserDlg").dialog({
+        title: "...",
+        autoOpen: false,
+        modal: true,
+        show: { effect: 'fade', speed: 400 },
+        hide: { effect: 'fade', speed: 400 },
+        width: 640,
+        minWidth: 640,
+        maxWidth: 640,
+        height: 780,
+        minHeight: 780,
+        maxHeight: 780,
+        position: { my: "top", at: "top", of: window },
+        buttons: [{
+            id: "imageDlgOkBtn",
+            text: "Title will be changed dynamically",
+            click: function () {
+                let newUser = userFromForm();
+                if (newUser) {
+                    if (createMode) {
+                        POST(newUser, getImagesList, error);
                         $(".scrollContainer").scrollTop(0);
                     }
                     else
