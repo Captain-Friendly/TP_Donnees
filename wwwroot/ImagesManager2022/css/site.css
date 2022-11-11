@@ -18,6 +18,10 @@ body {
     background-image: linear-gradient(180deg, lightgray, gray);
     align-items: center;
 }
+
+#newUserCmd{
+    
+}
 .headerLayout {
     display: grid;
     grid-template-columns: 80px auto 60px;

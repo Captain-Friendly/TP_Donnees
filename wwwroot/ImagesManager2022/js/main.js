@@ -23,6 +23,9 @@ function checkETag(ETag) {
     }
 }
 
+
+
+
 function getImagesList(refresh = true) {
     appendMode = !refresh;
     function prepareQueryString() {
