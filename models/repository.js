@@ -149,6 +149,7 @@ class Repository {
     }
     return this.updateResult.invalid;
   }
+
   remove(id) {
     let index = 0;
     for (let object of this.objects()) {
@@ -161,6 +162,7 @@ class Repository {
     }
     return false;
   }
+  
   bindExtraData(datas) {
     let bindedDatas = [];
     if (datas)
