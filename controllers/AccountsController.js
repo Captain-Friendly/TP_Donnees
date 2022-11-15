@@ -9,7 +9,7 @@ module.exports =
         constructor(HttpContext,) {
             super(HttpContext, new usersRepository(), true /* read authorisation */);
         }
-
+        // GET: /accounts/index/id
         index(id) {
             if (!isNaN(id)) {
                 this.HttpContext.response.JSON(this.repository.get(id));

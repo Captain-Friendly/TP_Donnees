@@ -2,6 +2,8 @@ const periodicRefreshPeriod = 15;
 let holdCheckETag = false;
 let currentETag = "";
 let createMode = true;
+let AddMode = true;
+
 let searchCategory = "";
 let searchTitle = "";
 let hideSearchBar = true;
@@ -41,33 +43,57 @@ function getImagesList(refresh = true) {
     GET_ALL(refreshimagesList, error, prepareQueryString());
 }
 
+function getUser(user, ETag) {
+    function insertUser(user) {
+        $(".buttons").append(
+            $(`
+            <span class="cmd .thumbnail">
+                <div    
+                    style="background-image:url('${user.AvatarGUID}')">
+                </div>
+            </span>
+            `)
+        );
+    }
+
+    insertUser(user);
+    // if () verify user with dialog
+
+    // LOGIN USER
+    // TODO: in login, use the token, then use index
+    currentETag = ETag;
+    previousScrollPosition = previousScrollPosition = $(".scrollContainer").scrollTop();
+    $(".scrollContainer").scrollTop(previousScrollPosition);
+    $('[data-toggle="tooltip"]').tooltip();
+}
+
 function refreshimagesList(images, ETag) {
     function insertIntoImageList(image) {
 
         $("#imagesList").append(
             $(` 
-                                <div class='imageLayout'>
-                                    <div class='imageHeader'>
-                                        <div class="imageTitle">${image.Title}</div>
-                                        <div    class="cmd editCmd  fa fa-pencil-square" 
-                                                imageid="${image.Id}" 
-                                                title="Editer ${image.Title}" 
-                                                data-toggle="tooltip">
-                                        </div>
-                                        <div    class="cmd deleteCmd fa fa-window-close" 
-                                                imageid="${image.Id}" 
-                                                title="Effacer ${image.Title}" 
-                                                data-toggle="tooltip">
-                                        </div>
-                                    </div>
-                                    <a href="${image.OriginalURL}" target="_blank">
-                                        <div    class='image' 
-                                                style="background-image:url('${image.ThumbnailURL}')">
-                                        </div>
-                                    </a>
-                                    <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
-                                </div>
-                        `)
+                <div class='imageLayout'>
+                    <div class='imageHeader'>
+                        <div class="imageTitle">${image.Title}</div>
+                        <div    class="cmd editCmd  fa fa-pencil-square" 
+                                imageid="${image.Id}" 
+                                title="Editer ${image.Title}" 
+                                data-toggle="tooltip">
+                        </div>
+                        <div    class="cmd deleteCmd fa fa-window-close" 
+                                imageid="${image.Id}" 
+                                title="Effacer ${image.Title}" 
+                                data-toggle="tooltip">
+                        </div>
+                    </div>
+                    <a href="${image.OriginalURL}" target="_blank">
+                        <div    class='image' 
+                                style="background-image:url('${image.ThumbnailURL}')">
+                        </div>
+                    </a>
+                    <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
+                </div>
+            `)
         );
     }
     currentETag = ETag;
@@ -108,11 +134,13 @@ function error(status) {
             errorMessage = "Service ou données introuvables";
             break;
         case 409:
-            errorMessage = "Conflits de données: Hyperlien existe déjà";
+            errorMessage = "Conflits de données: le email est déjà utiliser";
             break;
         case 500:
             errorMessage = "Erreur interne du service";
             break;
+        case 480:
+            errorMessage = "User n'est pas vérifier";
         default:
             errorMessage = "Une erreur est survenue";
             break;
@@ -132,11 +160,12 @@ function newImage() {
 }
 
 function newUser() {
+    //https://yopmail.com/en/
     holdCheckETag = true;
-    createMode = true;
+    AddMode = true;
     resetUserForm();
     ImageUploader.imageRequired('image_user', true);
-    $("#newUserDlg").dialog('option', 'title', "Creation d'utilisateur");
+    $("#newUserDlg").dialog('option', 'title', "Création d'utilisateur");
     $("#newUserDlgOkBtn").text("Créer");
     $("#newUserDlg").dialog('open');
 }
@@ -203,19 +232,20 @@ function imageFromForm() {
     }
     return false;
 }
-function userFromForm(){
-    if($("#newUserForm")[0].checkValidity()){
+function userFromForm() {
+    if ($("#newUserForm")[0].checkValidity()) {
         let newUser = {
             Id: parseInt($("user_Id_input").val()),
             Name: $("#name_input").val(),
             Email: $("#Email_input").val(),
             Password: $("#Password_input").val(),
-            AvatarGUID:$("#AvatarGUID_input").val(),
-            Created:parseInt($("#created_input").val()),
-            VerifyCode:parseInt($("#VerifyCode_input").val()),
+            AvatarGUID: $("#AvatarGUID_input").val(),
+            ImageData: ImageUploader.getImageData('image_user'),
+            Created: parseInt($("#created_input").val()),
+            VerifyCode: parseInt($("#VerifyCode_input").val()),
         };
         return newUser;
-    }else{
+    } else {
         $("#newUserForm")[0].reportValidity();
     }
 }
@@ -233,11 +263,11 @@ function imageToForm(image) {
 }
 
 
+
 function init_UI() {
     // $("#newImageCmd").click(newImage);
     $("#newImageCmd").on("click", newImage);
-    $("newUserCmd").on("click", newUser)
-
+    $("#newUserCmd").on("click", newUser)
 
 
     $("#imageDlg").dialog({
@@ -264,7 +294,7 @@ function init_UI() {
                         $(".scrollContainer").scrollTop(0);
                     }
                     else
-                        PUT(image, getImagesList, error);
+                        PUT(image, getImagesList, error); 
                     resetimageForm();
                     holdCheckETag = false;
                     $(this).dialog("close");
@@ -294,18 +324,18 @@ function init_UI() {
         maxHeight: 780,
         position: { my: "top", at: "top", of: window },
         buttons: [{
-            id: "imageDlgOkBtn",
+            id: "newUserDlgOkBtn",
             text: "Title will be changed dynamically",
             click: function () {
                 let newUser = userFromForm();
                 if (newUser) {
-                    if (createMode) {
+                    if (AddMode) { // if we are adding a new user
                         // TODO: ask question on register and PUT(image, getImagesList, error);
-                        REGISTER(newUser, getUser, problemWithUser);
+                        REGISTER(newUser, getUser, error);
                         $(".scrollContainer").scrollTop(0);
                     }
-                    else
-                        // PUT(image, getImagesList, error);
+                    // else //if we are modifying a user
+                    //     // PUT(image, getImagesList, error);
                     resetUserForm();
                     holdCheckETag = false;
                     $(this).dialog("close");

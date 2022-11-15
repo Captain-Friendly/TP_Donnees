@@ -5,6 +5,7 @@ const baseURL = "http://localhost:5000";
 const apiBaseURL = baseURL + "/api/images";
 const accountURL = baseURL + "/accounts";
 
+
 function HEAD(successCallBack, errorCallBack) {
     $.ajax({
         url: apiBaseURL,
@@ -28,10 +29,11 @@ function HEAD(successCallBack, errorCallBack) {
 */
 function REGISTER(user,successCallBack, errorCallBack){
     $.ajax({
-        url: accountURL+"/"+"register",
+        url: accountURL+"/register",
+        type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(user),
-        success: (data) => { successCallBack(data) },
+        success: (data, status, xhr) => { successCallBack(data, xhr.getResponseHeader("ETag")) },
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }
