@@ -9,11 +9,13 @@ class UsersRepository extends require('./repository') {
         super(new UserModel(), true);
         this.setBindExtraDataMethod(this.bindAvatarURL);
     }
-    bindAvatarURL(user){
+    bindAvatarURL(user) {
         if (user) {
-            let bindedUser = {...user};
-            bindedUser.Password = "********";
-            if (user["AvatarGUID"] != ""){
+            let bindedUser = { ...user };
+            delete bindedUser.Password;
+            if (bindedUser.VerifyCode !== "verified")
+                bindedUser.VerifyCode = "unverified";
+            if (user["AvatarGUID"] != "") {
                 bindedUser["AvatarURL"] = HttpContext.host + ImageFilesRepository.getImageFileURL(user["AvatarGUID"]);
             } else {
                 bindedUser["AvatarURL"] = "";
