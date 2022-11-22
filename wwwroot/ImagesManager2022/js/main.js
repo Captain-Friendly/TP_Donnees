@@ -277,13 +277,19 @@ function imageToForm(image) {
     ImageUploader.setImage('image', image.OriginalURL);
 }
 
-
+function connection(){
+    holdCheckETag = true;
+    $("#connectionDlg").dialog('option', 'title', "Connexion");
+    $("#connectionDlgOkBtn").text("Connexion");
+    $("#connectionDlg").dialog('open');
+}
 
 
 function init_UI() {
     // $("#newImageCmd").click(newImage);
     $("#newImageCmd").on("click", newImage);
-    $("#newUserCmd").on("click", newUser)
+    $("#newUserCmd").on("click", newUser);
+    $("#connectionCmd").on("click",connection)
 
 
     $("#imageDlg").dialog({
@@ -396,6 +402,26 @@ function init_UI() {
                     $(this).dialog("close");
                 }
             }
+        }]
+    });
+
+    $('#connectionDlg').dialog({
+        title:"...",
+        autoOpen: false,
+        modal : true,
+        show: { effect: 'fade', speed: 400 },
+        hide: { effect: 'fade', speed: 400 },
+        width: 500, minWidth: 500, maxWidth: 500,
+        height: 500, minHeight: 500, maxHeight: 500,
+        position: { my: "top", at: "top", of: window },
+        buttons: [{
+            id: "connectionDlgOkBtn",
+            text: "tittle will be changed",
+            click: function () {
+                POST(image, getImagesList, error);
+                holdCheckETag = false;
+                $(this).dialog("close");
+            }
         },
         {
             text: "Annuler",
@@ -404,7 +430,7 @@ function init_UI() {
                 $(this).dialog("close");
             }
         }]
-    });
+    })
     
 
     $("#confirmDeleteDlg").dialog({
