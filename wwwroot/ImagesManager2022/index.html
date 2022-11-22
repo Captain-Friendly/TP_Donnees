@@ -1,151 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Images Manager</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-        <link rel="stylesheet"
-            href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" href="css/site.css">
-        <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-        <link rel="manifest" href="images/site.webmanifest">
-        <link rel="icon" href="favicon.ico">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Images Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="manifest" href="images/site.webmanifest">
+    <link rel="icon" href="favicon.ico">
+</head>
 
-    <body>
+<body>
 
-        <div class="mainContainer">
-            <div class="headerPanel">
-                <div class="headerLayout">
-                    <img src="images/camera.png" alt="" data-toggle="tooltip" class="favicon"
-                        title="Gestionnaire d'images">
-                   <div style="display:flex">
-                        <span class="header outLinedText tbg-yellow">
-                            P
-                        </span>
-                        <span class="header outLinedText tbg-orange">
-                            I
-                        </span>
-                        <span class="header outLinedText tbg-red">
-                            C
-                        </span>
-                        <span class="header outLinedText tbg-pink ">
-                            T
-                        </span>
-                        <span class="header outLinedText tbg-black">
-                            -
-                        </span>
-                        <span class="header outLinedText tbg-purple">
-                            C
-                        </span>
-                        <span class="header outLinedText tbg-blue">
-                            L
-                        </span>
-                        <span class="header outLinedText tbg-green">
-                            O
-                        </span>
-                        <span class="header outLinedText tbg-grass">
-                            U
-                        </span>
-                        <span class="header outLinedText tbg-yellow">
-                            D
-                        </span>
-                    </div>
-                    
+    <div class="mainContainer">
+        <div class="headerPanel">
+            <div class="headerLayout">
+                <img src="images/camera.png" alt="" data-toggle="tooltip" class="favicon" title="Gestionnaire d'images">
+                <div style="display:flex">
+                    <span class="header outLinedText tbg-yellow">
+                        P
+                    </span>
+                    <span class="header outLinedText tbg-orange">
+                        I
+                    </span>
+                    <span class="header outLinedText tbg-red">
+                        C
+                    </span>
+                    <span class="header outLinedText tbg-pink ">
+                        T
+                    </span>
+                    <span class="header outLinedText tbg-black">
+                        -
+                    </span>
+                    <span class="header outLinedText tbg-purple">
+                        C
+                    </span>
+                    <span class="header outLinedText tbg-blue">
+                        L
+                    </span>
+                    <span class="header outLinedText tbg-green">
+                        O
+                    </span>
+                    <span class="header outLinedText tbg-grass">
+                        U
+                    </span>
+                    <span class="header outLinedText tbg-yellow">
+                        D
+                    </span>
+                </div>
 
-                    <div class="buttons">
-                        <span class="cmd fa fa-plus-square" id="newImageCmd" title="Ajouter un image"
-                            data-toggle="tooltip">
-                        </span>
 
-                        <span class="cmd fa fa-sign-in " id="newImageCmd" title="Se connecter"
-                            data-toggle="tooltip">
-                        </span>  
-                        
-                        <span class="cmd fa fa-user-plus" id="newUserCmd" title="Créer un nouvel usager"
-                            data-toggle="tooltip">
-                        </span>
-                        <!-- <span class="cmd .thumbnail">
+                <div class="buttons">
+                    <span class="cmd fa fa-plus-square" id="newImageCmd" title="Ajouter un image" data-toggle="tooltip">
+                    </span>
+
+                    <span class="cmd fa fa-sign-in " id="connectionCmd" title="Se connecter" data-toggle="tooltip">
+                    </span>
+
+                    <span class="cmd fa fa-user-plus" id="newUserCmd" title="Créer un nouvel usager"
+                        data-toggle="tooltip">
+                    </span>
+                    <!-- <span class="cmd .thumbnail">
                             <div style="background-image:url('${image.ThumbnailURL}')">
                             </div>
                         </span> -->
-                    </div>
-
                 </div>
-            </div>
 
-            <div class="scrollContainer">
-                <div id="imagesList">
-                    <!-- filled programmatically-->
-                </div>
-            </div>
-            <div>
-                <div id="imageDlg">
-                    <form id="imageForm">
-                        <input type="hidden" id="Id_input" value="0">
-                        <input type="hidden" id="date_input" value="0">
-                        <input type="hidden" id="GUID_input" value="">
-
-                        <label for="title_input">Titre</label>
-                        <input type="text" id="title_input" class="form-control" required>
-
-                        <label for="decription_input">Description</label>
-                        <textarea id="description_input" class="form-control" required></textarea>
-
-                        <label for="image">Image</label>
-                        <div id='image' class='ImageUploader' defaultImage='images/No_Image.png'
-                            waitingImage='images/writing.gif'>
-                        </div>
-                        <div class="note">Cliquez-Déposez une image</div>
-                    </form>
-                </div>
-                <div id="confirmDeleteDlg">
-                    <span id="confirmationMessage"></span>
-                </div>
-                <div id="errorDlg">
-                    <span id="errorMessage"></span>
-                </div>
-                <div id="newUserDlg">
-                    <form id="newUserForm">
-                        <input type="hidden" id="user_Id_input" value="0">
-                        <input type="hidden" id="created_input" value="0">
-                        <input type="hidden" id="AvatarGUID_input" value="">
-                        <input type="hidden" id="VerifyCode_input" value="0">
-
-                        <label for="name_input">Nom</label>
-                        <input type="text" id="name_input" class="form-control" required>
-
-                        <label for="Email_input">Courriel</label>
-                        <input type="text" id="Email_input" class="form-control" required>
-
-                        <label for="Password_input">Mot de Passe</label>
-                        <input type="text" id="Password_input" class="form-control" required>
-                        
-                        
-                        <label for="image_user">Image</label>
-                        <div id='image_user' class='ImageUploader' defaultImage='images/No_Avatar.png'
-                            waitingImage='images/writing2.gif'>
-                        </div>
-                        <div class="note">Cliquez-Déposez une image</div>
-                    </form>
-                </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <script src="js/customValidation.js"></script>
-        <script src="js/imageUploader.js"></script>
-        <script src="js/api.js"></script>
-        <script src="js/date.js"></script>
-        <script defer src="./js/main.js"> </script>
 
-    </body>
+        <div class="scrollContainer">
+            <div id="imagesList">
+                <!-- filled programmatically-->
+            </div>
+        </div>
+        <div>
+            <div id="imageDlg">
+                <form id="imageForm">
+                    <input type="hidden" id="Id_input" value="0">
+                    <input type="hidden" id="date_input" value="0">
+                    <input type="hidden" id="GUID_input" value="">
+
+                    <label for="title_input">Titre</label>
+                    <input type="text" id="title_input" class="form-control" required>
+
+                    <label for="decription_input">Description</label>
+                    <textarea id="description_input" class="form-control" required></textarea>
+
+                    <label for="image">Image</label>
+                    <div id='image' class='ImageUploader' defaultImage='images/No_Image.png'
+                        waitingImage='images/writing.gif'>
+                    </div>
+                    <div class="note">Cliquez-Déposez une image</div>
+                </form>
+            </div>
+            <div id="confirmDeleteDlg">
+                <span id="confirmationMessage"></span>
+            </div>
+            <div id="connectionDlg">
+                <form id="connectionForm">
+
+                    <label for="Email_input">Courriel</label>
+                    <input type="text" id="Email_input" class="form-control" required>
+
+                    <label for="Password_input">Mot de Passe</label>
+                    <input type="password" id="Password_input" class="form-control" required>
+
+                </form>
+            </div>
+            <div id="errorDlg">
+                <span id="errorMessage"></span>
+            </div>
+            <div id="newUserDlg">
+                <form id="newUserForm">
+                    <input type="hidden" id="user_Id_input" value="0">
+                    <input type="hidden" id="created_input" value="0">
+                    <input type="hidden" id="AvatarGUID_input" value="">
+                    <input type="hidden" id="VerifyCode_input" value="0">
+
+                    <label for="name_input">Nom</label>
+                    <input type="text" id="name_input" class="form-control" required>
+
+                    <label for="Email_input">Courriel</label>
+                    <input type="text" id="Email_input" class="form-control" required>
+
+                    <label for="Password_input">Mot de Passe</label>
+                    <input type="text" id="Password_input" class="form-control" required>
+
+
+                    <label for="image_user">Image</label>
+                    <div id='image_user' class='ImageUploader' defaultImage='images/No_Avatar.png'
+                        waitingImage='images/writing2.gif'>
+                    </div>
+                    <div class="note">Cliquez-Déposez une image</div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="js/customValidation.js"></script>
+    <script src="js/imageUploader.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/date.js"></script>
+    <script defer src="./js/main.js"> </script>
+
+</body>
 
 </html>
