@@ -37,6 +37,16 @@ function REGISTER(user,successCallBack, errorCallBack){
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }
+
+function VERIFY_USER(code,userId){
+    $.ajax({
+       url:accountURL + `/verify?id=${userId}&code=${code}`,
+       type:'GET',
+       success: data => { successCallBack(data); },
+       error: function (jqXHR) { errorCallBack(jqXHR.status) }
+    });
+}
+
 function GET_ID(id, successCallBack, errorCallBack) {
     $.ajax({
         url: apiBaseURL + "/" + id,

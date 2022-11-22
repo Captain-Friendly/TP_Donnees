@@ -16,6 +16,9 @@ let appendCount = 3;
 let previousScrollPosition = 0;
 let appendMode = false;
 
+let token;
+let Id;
+
 init_UI();
 HEAD(checkETag, error);
 setInterval(() => { HEAD(checkETag, error) }, periodicRefreshPeriod * 1000);
@@ -49,15 +52,13 @@ function getUser(user, ETag) {
     function insertUser(user) {
         $(".buttons").append(
             $(`
-            <span class="cmd .thumbnail">
-                <div    
-                    style="background-image:url('${user.AvatarGUID}')">
-                </div>
-            </span>
-            `)
+                <div class="avatar"
+                    style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;">
+                    </div>`)
         );
     }
 
+    Id = user.Id;
     insertUser(user);
     // if () verify user with dialog
 
@@ -252,7 +253,15 @@ function userFromForm() {
         $("#newUserForm")[0].reportValidity();
     }
 }
-// $("#").val()
+
+function codeFromForm(){
+    if ($("#VCodeForm")[0].checkValidity()) {
+        let code = parseInt($("#verif_code").val());
+        return code;
+    } else {
+        $("#VCodeForm")[0].reportValidity();
+    }
+}
 
 /**
  * To Edit images
@@ -357,6 +366,46 @@ function init_UI() {
             }
         }]
     });
+
+    $("#VCodeDlg").dialog({
+        title: "...",
+        autoOpen: false,
+        modal: true,
+        show: { effect: 'fade', speed: 400 },
+        hide: { effect: 'fade', speed: 400 },
+        width: 640,
+        minWidth: 640,
+        maxWidth: 640,
+        height: 780,
+        minHeight: 780,
+        maxHeight: 780,
+        position: { my: "top", at: "top", of: window },
+        buttons: [{
+            id: "newUserDlgOkBtn",
+            text: "Title will be changed dynamically",
+            click: function () {
+                let code = codeFromForm();
+                // VERIFY_USER(code,userId)
+                VERIFY_USER(code, userId)
+                if (code) {
+                    // verify code
+                    // else //if we are modifying a user
+                    //     // PUT(image, getImagesList, error);
+                    resetUserForm();
+                    holdCheckETag = false;
+                    $(this).dialog("close");
+                }
+            }
+        },
+        {
+            text: "Annuler",
+            click: function () {
+                holdCheckETag = false;
+                $(this).dialog("close");
+            }
+        }]
+    });
+    
 
     $("#confirmDeleteDlg").dialog({
         title: "Attention!",
