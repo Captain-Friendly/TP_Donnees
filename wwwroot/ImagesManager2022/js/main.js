@@ -1,3 +1,5 @@
+// require ('./imageUploader');
+
 const periodicRefreshPeriod = 15;
 let holdCheckETag = false;
 let currentETag = "";
@@ -164,7 +166,7 @@ function newUser() {
     holdCheckETag = true;
     AddMode = true;
     resetUserForm();
-    ImageUploader.imageRequired('image_user', true);
+    ImageUploader.imageRequired('imageUser', true);
     $("#newUserDlg").dialog('option', 'title', "Création d'utilisateur");
     $("#newUserDlgOkBtn").text("Créer");
     $("#newUserDlg").dialog('open');
@@ -213,7 +215,7 @@ function resetUserForm() {
     $("#Email_input").val("");
     $("#Password_input").val("");
 
-    ImageUploader.resetImage('image_user');
+    ImageUploader.resetImage('imageUser');
 }
 
 function imageFromForm() {
@@ -234,13 +236,14 @@ function imageFromForm() {
 }
 function userFromForm() {
     if ($("#newUserForm")[0].checkValidity()) {
+        let id = parseInt($("#user_Id_input").val());
         let newUser = {
-            Id: parseInt($("user_Id_input").val()),
+            Id: id,
             Name: $("#name_input").val(),
             Email: $("#Email_input").val(),
             Password: $("#Password_input").val(),
             AvatarGUID: $("#AvatarGUID_input").val(),
-            ImageData: ImageUploader.getImageData('image_user'),
+            ImageData: ImageUploader.getImageData('imageUser'),
             Created: parseInt($("#created_input").val()),
             VerifyCode: parseInt($("#VerifyCode_input").val()),
         };
@@ -251,7 +254,10 @@ function userFromForm() {
 }
 // $("#").val()
 
-
+/**
+ * To Edit images
+ * @param {*} image 
+ */
 function imageToForm(image) {
     $("#Id_input").val(image.Id);
     $("#GUID_input").val(image.GUID);
@@ -261,6 +267,7 @@ function imageToForm(image) {
     $("#description_input").val(image.Description);
     ImageUploader.setImage('image', image.OriginalURL);
 }
+
 
 
 
