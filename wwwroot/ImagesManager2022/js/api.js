@@ -38,7 +38,7 @@ function REGISTER(user,successCallBack, errorCallBack){
     });
 }
 
-function VERIFY_USER(code,userId){
+function VERIFY_USER(code,userId, successCallBack, errorCallBack){
     $.ajax({
        url:accountURL + `/verify?id=${userId}&code=${code}`,
        type:'GET',
