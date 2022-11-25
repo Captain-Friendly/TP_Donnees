@@ -223,10 +223,10 @@ function resetUserForm() {
 function connectionFromForm(){
     if($("#connectionForm")[0].checkValidity()){
         let login = {
-            Email: $("#Email_input").val(),
-            Password: $("#Password_input").val()
-        }
-        return login
+            Email: $("#Email_inputC").val(),
+            Password: $("#Password_inputC").val()
+        };
+        return login;
     } else{
         $("#connectionForm")[0].reportValidity();
     }
@@ -435,7 +435,7 @@ function init_UI() {
                 let login = connectionFromForm();
                 if(login){
 
-                POST(login);
+                LOGIN(login,getUser,error);
                 holdCheckETag = false;
                 $(this).dialog("close");
 
