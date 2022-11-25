@@ -50,7 +50,7 @@ function getImagesList(refresh = true) {
     GET_ALL(refreshimagesList, error, prepareQueryString());
 }
 
-function getUser(user, ETag) {
+function getUser(Token, ETag) {
     function insertUser(user) {
         $(".buttons").append(
             $(`
@@ -61,6 +61,7 @@ function getUser(user, ETag) {
     }
     // window.sessionStorage.setItem("CurrentUser",  user);
     // window.sessionStorage.setItem("Id",  user.Id);
+    ETag;
     insertUser(user);
     $("#VCodeDlg").dialog('open');
     // if () verify user with dialog
@@ -436,11 +437,8 @@ function init_UI() {
             click: function () {
                 let login = connectionFromForm();
                 if(login){
-
                 LOGIN(login,getUser,error);
-                holdCheckETag = false;
                 $(this).dialog("close");
-
                 }
 
             }
