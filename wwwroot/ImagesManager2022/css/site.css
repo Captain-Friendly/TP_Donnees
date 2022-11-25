@@ -21,7 +21,7 @@ body {
 
 .headerLayout {
     display: grid;
-    grid-template-columns: 80px auto 60px;
+    grid-template-columns: 80px auto 100px;
     align-items: center;
 }
 .outLinedText {
@@ -66,13 +66,19 @@ body {
     text-align: left;
 }
 .connectionBar {
-    display: grid;
-    grid-template-columns: 80px auto 60px 60px;
-    align-items: center;
-    margin-left: auto;
+    display: flex;
+    /* flex-direction: row; */
+    justify-content: space-between;
+    /* margin-right: auto; */
     margin-top: 10px;
     margin-bottom: 10px;
+    /* justify-self: right; */
 }
+.buttons {
+    padding: 10%;
+}
+
+
 .scrollContainer {
     overflow-y: scroll;
     flex: 1;

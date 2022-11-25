@@ -1,7 +1,7 @@
 // session storage user informartion, token
 // local storage, if user clicks remember me, store email and password
 // need json.stringyfy and json.parse
-
+// TODO: can connect user if not verified
 const periodicRefreshPeriod = 15;
 let holdCheckETag = false;
 let currentETag = "";
@@ -69,7 +69,7 @@ function getUser(Token, ETag) {
 function insertUser(user) {
     $(".buttons").append(
         $(`
-            <div class="avatar"
+            <div class="avatar buttons"
                 style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;">
                 </div>`)
     );
@@ -419,9 +419,9 @@ function init_UI() {
         width: 640,
         minWidth: 640,
         maxWidth: 640,
-        height: 780,
-        minHeight: 780,
-        maxHeight: 780,
+        height: 400,
+        minHeight: 400,
+        maxHeight: 400,
         position: { my: "top", at: "top", of: window },
         buttons: [{
             id: "VcodeDlgOkBtn",

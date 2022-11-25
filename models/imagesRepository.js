@@ -1,6 +1,6 @@
 
  // Attention de ne pas avoir des références circulaire
- // const UsersRepository = require('./usersRepository'); pas ici sinon référence ciculaire
+const UsersRepository = require('./usersRepository'); // pas ici sinon référence ciculaire
 const ImageFilesRepository = require('./imageFilesRepository.js');
 const ImageModel = require('./image.js');
 const utilities = require("../utilities");
@@ -14,7 +14,7 @@ module.exports =
         }
         /**
          * Binds the image to the url and thumbnail url    
-         *  TODO:Add the user who added the image
+         *  TODO:Add the user who added the image, use userRepo
          * @param {*} image image data
          * @returns 
          */
