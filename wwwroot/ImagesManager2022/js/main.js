@@ -59,10 +59,8 @@ function getUser(Token, ETag) {
                     </div>`)
         );
     }
-    // window.sessionStorage.setItem("CurrentUser",  user);
-    // window.sessionStorage.setItem("Id",  user.Id);
-    ETag;
     insertUser(user);
+    
     $("#VCodeDlg").dialog('option', 'title', "Donner le code de Vérification");
     $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');
@@ -70,7 +68,6 @@ function getUser(Token, ETag) {
 
     // LOGIN USER
     // TODO: in login, use the token, then use index
-    currentETag = ETag;
     previousScrollPosition = previousScrollPosition = $(".scrollContainer").scrollTop();
     $(".scrollContainer").scrollTop(previousScrollPosition);
     $('[data-toggle="tooltip"]').tooltip();
@@ -303,7 +300,6 @@ function connection(){
     $("#connectionDlg").dialog('open');
 }
 
-
 function init_UI() {
     // $("#newImageCmd").click(newImage);
     $("#newImageCmd").on("click", newImage);
@@ -411,13 +407,9 @@ function init_UI() {
             click: function () {
                 let code = codeFromForm();
                 // VERIFY_USER(code,userId)
-                VERIFY_USER(code, userId, /**works, doesn't work */)
+                let works = false;
+                VERIFY_USER(code, userId,() => {works = true}, error)
                 if (works) {
-                    // else //if we are modifying a user
-                    //     // PUT(image, getImagesList, error);
-                    resetUserForm();
-                    // connect user
-                    holdCheckETag = false;
                     $(this).dialog("close");
                 }else{
                     $(this).$(`<div id="error_code" style="color: red;">Code de Vérification invalide, Essayer à nouveux</div>`)
