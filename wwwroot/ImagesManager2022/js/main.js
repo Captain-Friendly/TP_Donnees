@@ -1,5 +1,9 @@
 // require ('./imageUploader');
 
+// session storage user informartion, token
+// local storage, if user clicks remember me, store email and password
+// need json.stringyfy and json.parse
+
 const periodicRefreshPeriod = 15;
 let holdCheckETag = false;
 let currentETag = "";
