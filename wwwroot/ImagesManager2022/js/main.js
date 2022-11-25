@@ -412,7 +412,7 @@ function init_UI() {
             text: "Title will be changed dynamically",
             click: function () {
                 let code = codeFromForm();
-                let works = false;
+                var works = false;
                 VERIFY_USER(code, userId,() => {works = true}, () => {works = false})
                 if (works == true) {
                     $(this).dialog("close");
