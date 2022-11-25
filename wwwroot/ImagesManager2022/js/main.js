@@ -6,6 +6,8 @@ let currentETag = "";
 let createMode = true;
 let AddMode = true;
 
+
+
 let searchCategory = "";
 let searchTitle = "";
 let hideSearchBar = true;
@@ -57,8 +59,7 @@ function getUser(user, ETag) {
                     </div>`)
         );
     }
-
-    Id = user.Id;
+    window.sessionStorage.setItem("Id",  user.Id);
     insertUser(user);
     // if () verify user with dialog
 
@@ -405,7 +406,7 @@ function init_UI() {
             click: function () {
                 let code = codeFromForm();
                 // VERIFY_USER(code,userId)
-                VERIFY_USER(code, userId)
+                VERIFY_USER(code, userId, )
                 if (code) {
                     // verify code
                     // else //if we are modifying a user
