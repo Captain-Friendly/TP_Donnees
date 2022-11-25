@@ -412,13 +412,13 @@ function init_UI() {
             text: "Title will be changed dynamically",
             click: function () {
                 let code = codeFromForm();
-                // VERIFY_USER(code,userId)
                 let works = false;
                 VERIFY_USER(code, userId,() => {works = true}, () => {works = false})
-                if (works) {
+                if (works == true) {
                     $(this).dialog("close");
                 }else{
-                    $(this).$(`<div id="error_code" style="color: red;">Code de Vérification invalide, Essayer à nouveux</div>`)
+                    debugger
+                    $(this).append($(`<div id="error_code" style="color: red;">Code de Vérification invalide, Essayer à nouveux</div>`));
                 }
             }
         }]
