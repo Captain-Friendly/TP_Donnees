@@ -410,14 +410,16 @@ function init_UI() {
             click: function () {
                 let code = codeFromForm();
                 // VERIFY_USER(code,userId)
-                VERIFY_USER(code, userId, )
-                if (code) {
-                    // verify code
+                VERIFY_USER(code, userId, /**works, doesn't work */)
+                if (works) {
                     // else //if we are modifying a user
                     //     // PUT(image, getImagesList, error);
                     resetUserForm();
+                    // connect user
                     holdCheckETag = false;
                     $(this).dialog("close");
+                }else{
+                    $(this).$(`<div id="error_code" style="color: red;">Code de Vérification invalide, Essayer à nouveux</div>`)
                 }
             }
         }]
