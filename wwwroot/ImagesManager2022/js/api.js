@@ -4,6 +4,7 @@ const baseURL = "http://localhost:5000";
 // const apiBaseURL = "/api/images";
 const apiBaseURL = baseURL + "/api/images";
 const accountURL = baseURL + "/accounts";
+const loginURL = baseURL + "/token";
 
 
 function HEAD(successCallBack, errorCallBack) {
@@ -30,6 +31,16 @@ function HEAD(successCallBack, errorCallBack) {
 function REGISTER(user,successCallBack, errorCallBack){
     $.ajax({
         url: accountURL+"/register",
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(user),
+        success: (data, status, xhr) => { successCallBack(data, xhr.getResponseHeader("ETag")) },
+        error: function (jqXHR) { errorCallBack(jqXHR.status) }
+    });
+}
+function LOGIN(){
+    $.ajax({
+        url: loginURL,
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(user),
