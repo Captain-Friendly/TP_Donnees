@@ -306,6 +306,14 @@ function connection(){
     $("#connectionDlg").dialog('open');
 }
 
+function verified(){
+    $("#VCodeDlg").dialog("close");
+}
+
+function wrongNumber(){
+    $("#VCodeDlg").append($(`<div id="error_code" style="color: red;">Code de Vérification invalide, Essayer à nouveux</div>`));
+}
+
 function init_UI() {
     // $("#newImageCmd").click(newImage);
     $("#newImageCmd").on("click", newImage);
@@ -413,13 +421,11 @@ function init_UI() {
             click: function () {
                 let code = codeFromForm();
                 var works = false;
-                VERIFY_USER(code, userId,() => {works = true}, () => {works = false})
-                if (works == true) {
-                    $(this).dialog("close");
-                }else{
-                    debugger
-                    $(this).append($(`<div id="error_code" style="color: red;">Code de Vérification invalide, Essayer à nouveux</div>`));
-                }
+                VERIFY_USER(code, userId,verified, wrongNumber);
+
+
+                
+                
             }
         }]
     });
