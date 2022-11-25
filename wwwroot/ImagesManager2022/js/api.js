@@ -44,7 +44,7 @@ function LOGIN(login,successCallBack,errorCallBack){
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(login),
-        success: (data, status, xhr) => { successCallBack(data, xhr.getResponseHeader("ETag")) },
+        success: (data, status, xhr) => { successCallBack(data) },
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }
