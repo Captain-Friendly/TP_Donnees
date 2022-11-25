@@ -1,5 +1,3 @@
-// require ('./imageUploader');
-
 // session storage user informartion, token
 // local storage, if user clicks remember me, store email and password
 // need json.stringyfy and json.parse
@@ -23,7 +21,9 @@ let previousScrollPosition = 0;
 let appendMode = false;
 
 let token;
-let userId;
+let local_user;
+
+const sessionSTR = window.sessionStorage;
 
 init_UI();
 HEAD(checkETag, error);
@@ -76,7 +76,9 @@ function insertUser(user) {
 }
 
 function userCreated(user, ETag){
-    userId = user.Id;
+    let string = user.Id.toString();
+    debugger
+    sessionSTR.setItem("userId", string),
     $("#VCodeDlg").dialog('option', 'title', "Donner le code de Vérification");
     $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');
@@ -197,6 +199,8 @@ function editimage(e) {
     $("#imageDlgOkBtn").text("Modifier");
     $("#imageDlg").dialog('open');
 }
+
+
 function deleteimage(e) {
     holdCheckETag = true;
     imageIdToDelete = e.target.getAttribute("imageid")
@@ -424,7 +428,7 @@ function init_UI() {
             text: "Title will be changed dynamically",
             click: function () {
                 let code = codeFromForm();
-                var works = false;
+                let userId = sessionSTR.getItem("userId")
                 VERIFY_USER(code, userId,verified, wrongNumber);
 
 
