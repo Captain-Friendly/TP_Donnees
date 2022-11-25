@@ -19,7 +19,7 @@ let previousScrollPosition = 0;
 let appendMode = false;
 
 let token;
-let Id;
+let userId;
 
 init_UI();
 HEAD(checkETag, error);
@@ -72,6 +72,7 @@ function insertUser(user) {
 }
 
 function userCreated(user, ETag){
+    userId = user.Id;
     $("#VCodeDlg").dialog('option', 'title', "Donner le code de Vérification");
     $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');
@@ -413,7 +414,7 @@ function init_UI() {
                 let code = codeFromForm();
                 // VERIFY_USER(code,userId)
                 let works = false;
-                VERIFY_USER(code, userId,() => {works = true}, error)
+                VERIFY_USER(code, userId,() => {works = true}, () => {works = false})
                 if (works) {
                     $(this).dialog("close");
                 }else{
