@@ -51,19 +51,8 @@ function getImagesList(refresh = true) {
 }
 
 function getUser(Token, ETag) {
-    function insertUser(user) {
-        $(".buttons").append(
-            $(`
-                <div class="avatar"
-                    style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;">
-                    </div>`)
-        );
-    }
-    // window.sessionStorage.setItem("CurrentUser",  user);
-    // window.sessionStorage.setItem("Id",  user.Id);
     
-    insertUser(user);
-    
+
     $("#VCodeDlg").dialog('option', 'title', "Donner le code de Vérification");
     $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');
@@ -74,6 +63,19 @@ function getUser(Token, ETag) {
     previousScrollPosition = previousScrollPosition = $(".scrollContainer").scrollTop();
     $(".scrollContainer").scrollTop(previousScrollPosition);
     $('[data-toggle="tooltip"]').tooltip();
+}
+
+function userCreated(user, ETag){
+    function insertUser(user) {
+        $(".buttons").append(
+            $(`
+                <div class="avatar"
+                    style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;">
+                    </div>`)
+        );
+    }
+    debugger
+    insertUser(user);
 }
 
 function refreshimagesList(images, ETag) {
@@ -371,7 +373,7 @@ function init_UI() {
                 if (newUser) {
                     if (AddMode) { // if we are adding a new user
                         // TODO: ask question on register and PUT(image, getImagesList, error);
-                        REGISTER(newUser, getUser, error);
+                        REGISTER(newUser, userCreated, error);
                         $(".scrollContainer").scrollTop(0);
                     }
                     // else //if we are modifying a user
