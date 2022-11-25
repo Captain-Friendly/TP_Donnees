@@ -49,6 +49,17 @@ function LOGIN(login,successCallBack,errorCallBack){
     });
 }
 
+function INDEX(id,successCallBack,errorCallBack){
+    $.ajax({
+        url: accountURL + `/index/${id}`,
+        type: 'GET',
+        contentType: 'application/json',
+        data: JSON.stringify(id),
+        success: (data, status, xhr) => { successCallBack(data) },
+        error: function (jqXHR) { errorCallBack(jqXHR.status) }
+    });
+}
+
 function VERIFY_USER(code,userId, successCallBack, errorCallBack){
     $.ajax({
        url:accountURL + `/verify?id=${userId}&code=${code}`,
