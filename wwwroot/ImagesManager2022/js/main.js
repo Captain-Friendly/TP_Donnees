@@ -219,6 +219,19 @@ function resetUserForm() {
     ImageUploader.resetImage('imageUser');
 }
 
+function connectionFromForm(){
+    if($("#connectionForm")[0].checkValidity()){
+        let login = {
+            Email: $("#Email_input").val(),
+            Password: $("#Password_input").val()
+        }
+        return login
+    } else{
+        $("#connectionForm")[0].reportValidity();
+    }
+    return false;
+}
+
 function imageFromForm() {
     if ($("#imageForm")[0].checkValidity()) {
         let image = {
@@ -418,9 +431,15 @@ function init_UI() {
             id: "connectionDlgOkBtn",
             text: "tittle will be changed",
             click: function () {
-                POST(image, getImagesList, error);
+                let login = connectionFromForm();
+                if(login){
+
+                POST(login);
                 holdCheckETag = false;
                 $(this).dialog("close");
+
+                }
+
             }
         },
         {
