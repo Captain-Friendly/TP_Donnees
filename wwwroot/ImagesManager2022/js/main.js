@@ -59,8 +59,10 @@ function getUser(user, ETag) {
                     </div>`)
         );
     }
-    window.sessionStorage.setItem("Id",  user.Id);
+    // window.sessionStorage.setItem("CurrentUser",  user);
+    // window.sessionStorage.setItem("Id",  user.Id);
     insertUser(user);
+    $("#VCodeDlg").dialog('open');
     // if () verify user with dialog
 
     // LOGIN USER
