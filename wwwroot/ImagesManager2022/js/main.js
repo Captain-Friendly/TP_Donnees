@@ -63,6 +63,8 @@ function getUser(Token, ETag) {
     // window.sessionStorage.setItem("Id",  user.Id);
     ETag;
     insertUser(user);
+    $("#VCodeDlg").dialog('option', 'title', "Donner le code de Vérification");
+    $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');
     // if () verify user with dialog
 
@@ -404,19 +406,21 @@ function init_UI() {
         maxHeight: 780,
         position: { my: "top", at: "top", of: window },
         buttons: [{
-            id: "newUserDlgOkBtn",
+            id: "VcodeDlgOkBtn",
             text: "Title will be changed dynamically",
             click: function () {
                 let code = codeFromForm();
                 // VERIFY_USER(code,userId)
-                VERIFY_USER(code, userId, )
-                if (code) {
-                    // verify code
+                VERIFY_USER(code, userId, /**works, doesn't work */)
+                if (works) {
                     // else //if we are modifying a user
                     //     // PUT(image, getImagesList, error);
                     resetUserForm();
+                    // connect user
                     holdCheckETag = false;
                     $(this).dialog("close");
+                }else{
+                    $(this).$(`<div id="error_code" style="color: red;">Code de Vérification invalide, Essayer à nouveux</div>`)
                 }
             }
         }]
