@@ -62,6 +62,8 @@ function getUser(user, ETag) {
     // window.sessionStorage.setItem("CurrentUser",  user);
     // window.sessionStorage.setItem("Id",  user.Id);
     insertUser(user);
+    $("#VCodeDlg").dialog('option', 'title', "Donner le code de Vérification");
+    $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');
     // if () verify user with dialog
 
@@ -403,7 +405,7 @@ function init_UI() {
         maxHeight: 780,
         position: { my: "top", at: "top", of: window },
         buttons: [{
-            id: "newUserDlgOkBtn",
+            id: "VcodeDlgOkBtn",
             text: "Title will be changed dynamically",
             click: function () {
                 let code = codeFromForm();
