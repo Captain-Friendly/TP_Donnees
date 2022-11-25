@@ -61,7 +61,7 @@ function getUser(Token, ETag) {
     }
     // window.sessionStorage.setItem("CurrentUser",  user);
     // window.sessionStorage.setItem("Id",  user.Id);
-    ETag;
+    
     insertUser(user);
     $("#VCodeDlg").dialog('option', 'title', "Donner le code de Vérification");
     $("#VcodeDlgOkBtn").text("Confirmer");
