@@ -53,9 +53,7 @@ function getImagesList(refresh = true) {
 function getUser(Token, ETag) {
     
 
-    $("#VCodeDlg").dialog('option', 'title', "Donner le code de Vérification");
-    $("#VcodeDlgOkBtn").text("Confirmer");
-    $("#VCodeDlg").dialog('open');
+    
     // if () verify user with dialog
 
     // LOGIN USER
@@ -64,17 +62,19 @@ function getUser(Token, ETag) {
     $(".scrollContainer").scrollTop(previousScrollPosition);
     $('[data-toggle="tooltip"]').tooltip();
 }
+function insertUser(user) {
+    $(".buttons").append(
+        $(`
+            <div class="avatar"
+                style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;">
+                </div>`)
+    );
+}
 
 function userCreated(user, ETag){
-    function insertUser(user) {
-        $(".buttons").append(
-            $(`
-                <div class="avatar"
-                    style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;">
-                    </div>`)
-        );
-    }
-    debugger
+    $("#VCodeDlg").dialog('option', 'title', "Donner le code de Vérification");
+    $("#VcodeDlgOkBtn").text("Confirmer");
+    $("#VCodeDlg").dialog('open');
     insertUser(user);
 }
 
