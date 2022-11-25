@@ -38,12 +38,12 @@ function REGISTER(user,successCallBack, errorCallBack){
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }
-function LOGIN(){
+function LOGIN(login,successCallBack,errorCallBack){
     $.ajax({
         url: loginURL,
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(user),
+        data: JSON.stringify(login),
         success: (data, status, xhr) => { successCallBack(data, xhr.getResponseHeader("ETag")) },
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
