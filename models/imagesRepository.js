@@ -12,6 +12,12 @@ module.exports =
             super(new ImageModel(), true /* cached */);
             this.setBindExtraDataMethod(this.bindImageURL);
         }
+        /**
+         * Binds the image to the url and thumbnail url    
+         *  TODO:Add the user who added the image
+         * @param {*} image image data
+         * @returns 
+         */
         bindImageURL(image) {
             if (image) {
                 let bindedImage = { ...image };

@@ -16,16 +16,16 @@ function HEAD(successCallBack, errorCallBack) {
     });
 }
 /*
-{
-    "Id": 4,
-    "Name": "Julian Angel Murillo",
-    "Email": "juliandelapaz2001@gmail.com",
-    "Password": "********",
-    "Created": 1668200346,
-    "VerifyCode": 905218,
-    "AvatarGUID": "",
-    "AvatarURL": ""
-}
+    {
+        "Id": 4,
+        "Name": "Julian Angel Murillo",
+        "Email": "juliandelapaz2001@gmail.com",
+        "Password": "********",
+        "Created": 1668200346,
+        "VerifyCode": 905218,
+        "AvatarGUID": "",
+        "AvatarURL": ""
+    }
 */
 function REGISTER(user,successCallBack, errorCallBack){
     $.ajax({
