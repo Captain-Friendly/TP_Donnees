@@ -29,12 +29,13 @@ function HEAD(successCallBack, errorCallBack) {
     }
 */
 function REGISTER(user,successCallBack, errorCallBack){
+    debugger
     $.ajax({
         url: accountURL+"/register",
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(user),
-        success: (data, status, xhr) => { successCallBack(data, xhr.getResponseHeader("ETag")) },
+        success: (data, status, xhr) => { successCallBack(data) },
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }
@@ -61,6 +62,7 @@ function INDEX(id,successCallBack,errorCallBack){
 }
 
 function VERIFY_USER(code,userId, successCallBack, errorCallBack){
+    debugger
     $.ajax({
        url:accountURL + `/verify?id=${userId}&code=${code}`,
        type:'GET',
@@ -70,6 +72,7 @@ function VERIFY_USER(code,userId, successCallBack, errorCallBack){
 }
 
 function GET_ID(id, successCallBack, errorCallBack) {
+    
     $.ajax({
         url: apiBaseURL + "/" + id,
         type: 'GET',
@@ -78,6 +81,7 @@ function GET_ID(id, successCallBack, errorCallBack) {
     });
 }
 function GET_ALL(successCallBack, errorCallBack, queryString = null) {
+    debugger
     let url = apiBaseURL + (queryString ? queryString : "");
     $.ajax({
         url: url,
