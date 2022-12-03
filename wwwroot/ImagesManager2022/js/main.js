@@ -79,6 +79,7 @@ function insertUser(user) {
 function userCreated(user){
     debugger
     let string = user.Id.toString();
+    sessionSTR.setItem("user", JSON.stringify(user))
     sessionSTR.setItem("userId", string);
     $("#VCodeDlg").dialog('option', 'title', "Donner le code de Vérification");
     $("#VcodeDlgOkBtn").text("Confirmer");
@@ -170,6 +171,7 @@ function error(status) {
 }
 
 function newImage() {
+    debugger
     holdCheckETag = true;
     createMode = true;
     resetimageForm();
@@ -220,6 +222,7 @@ function deleteimage(e) {
     $("#confirmDeleteDlg").dialog('open');
 }
 function resetimageForm() {
+    debugger
     $("#Id_input").val("0");
     $("#GUID_input").val("");
     $("#date_input").val(Date.now());
@@ -390,7 +393,8 @@ function init_UI() {
         buttons: [{
             id: "newUserDlgOkBtn",
             text: "Title will be changed dynamically",
-            click: function () {
+            click: function (e) {
+                e.preventDefault();
                 let newUser = userFromForm();
                 if (newUser) {
                     if (AddMode) { // if we are adding a new user

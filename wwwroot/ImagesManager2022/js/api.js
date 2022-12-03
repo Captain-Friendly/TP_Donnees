@@ -35,7 +35,7 @@ function REGISTER(user,successCallBack, errorCallBack){
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(user),
-        success: (data, status, xhr) => { successCallBack(data) },
+        success: (data) => { successCallBack(data) },
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }
