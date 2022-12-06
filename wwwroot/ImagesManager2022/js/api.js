@@ -1,5 +1,8 @@
 const baseURL = "http://localhost:5000";
 // const baseURL = "https://tp201970761.glitch.me";
+// TODO: ajouter le token dans le headers:{
+        //     authorization: `Bearer ${token}`
+        // },
 
 // const apiBaseURL = "/api/images";
 const apiBaseURL = baseURL + "/api/images";
@@ -35,7 +38,7 @@ function REGISTER(user,successCallBack, errorCallBack){
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(user),
-        success: (data, status, xhr) => { successCallBack(data) },
+        success: (data) => { successCallBack(data) },
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }
