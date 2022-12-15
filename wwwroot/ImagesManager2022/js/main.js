@@ -133,10 +133,6 @@ function refreshimagesList(images, ETag) {
                                 data-toggle="tooltip">
                         </div>
                     </div>                   
-                    <div class="avatar button"
-                    style="background: url('${sessionStorage.getItem("AvatarURL")}') no-repeat center center;
-                     background-size: cover; width: 50px;">
-                    </div>
                     <a href="${image.OriginalURL}" target="_blank">
                         <div    class='image' 
                                 style="background-image:url('${image.ThumbnailURL}')">
