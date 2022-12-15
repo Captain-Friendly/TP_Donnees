@@ -1,6 +1,11 @@
 // session storage user informartion, token
 // local storage, if user clicks remember me, store email and password
 // need json.stringyfy and json.parse
+
+//const { number } = require("sharp/lib/is");
+
+//const { logout } = require("../../../tokenManager");
+
 // TODO: can connect user if not verified
 const periodicRefreshPeriod = 15;
 let holdCheckETag = false;
@@ -68,24 +73,20 @@ function getUser(Token, ETag) {
 
     if(sessionStorage.getItem("local")){
         localStorage.setItem("Access_token",Token.Access_token);
-        localStorage.setItem("UserId",Token.userId);
+        localStorage.setItem("UserId",Token.UserId);
         localStorage.setItem("Username",Token.Username);
     }
     else{
         sessionStorage.setItem("Access_token",Token.Access_token);
-        sessionStorage.setItem("UserId",Token.userId);
+        sessionStorage.setItem("UserId",Token.UserId);
         sessionStorage.setItem("Username",Token.Username);
     }
-    //sessionStorage.setItem("token",Token);
-    //localStorage.setItem("token",Token);
 
+    refresh()
     // if () verify user with dialog
 
     // LOGIN USER
     // TODO: in login, use the token, then use index
-    // previousScrollPosition = previousScrollPosition = $(".scrollContainer").scrollTop();
-    // $(".scrollContainer").scrollTop(previousScrollPosition);
-    //$('[data-toggle="tooltip"]').tooltip();
 }
 function insertUser(user) {
     $(".buttons").append(
@@ -334,6 +335,13 @@ function imageToForm(image) {
     ImageUploader.setImage('image', image.OriginalURL);
 }
 
+function deconnection(){
+    holdCheckETag = true;
+    $("#deconnectionDlg").dialog('option', 'title', "Deconnexion");
+    $("#deconnectionDlgOkBtn").text("Connexion");
+    $("#deconnectionDlg").dialog('open'); 
+}
+
 function connection(){
     holdCheckETag = true;
     $("#connectionDlg").dialog('option', 'title', "Connexion");
@@ -357,10 +365,42 @@ function local(){
     sessionStorage.setItem("local",$("#localC").prop("checked"));  
 }
 
+function profilePic(user){
+    style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;"
+    $(".ProfilePic").css("background",`url('${user.AvatarGUID}') no-repeat center center`);
+    $(".ProfilePic").css("background-size",`cover`);
+    debugger;
+}
+
+function DeleteToken(){
+    
+    let userid = sessionStorage.getItem("UserId");
+    localStorage.clear();
+    sessionStorage.clear();
+    LOGOUT(userid,refresh,error);
+}
+
+function refresh(){
+
+    init_UI();
+    HEAD(checkETag, error);
+}
+
 function Connected(){
 
-    if(localStorage.getItem("itemblbl") != null){
-        $(".connectionBar").hide();
+    if(localStorage.getItem("UserId") != null){ // set le session = local
+        sessionStorage.setItem("UserId",localStorage.getItem("UserId"));
+    }
+
+    if(sessionStorage.getItem("UserId") == null){ // not connected
+        $(".ConnectedB").hide();
+        $(".NotConnectedB").show();
+    }
+    else{ // connected
+        //debugger;
+        GetUser(parseInt(sessionStorage.getItem("UserId"),10) ,profilePic,error);
+        $(".ConnectedB").show();
+        $(".NotConnectedB").hide();
     }
 
 }
@@ -370,6 +410,7 @@ function init_UI() {
     $("#newImageCmd").on("click", newImage);
     $("#newUserCmd").on("click", newUser);
     $("#connectionCmd").on("click",connection)
+    $("#deconnectionCmd").on("click",deconnection)
 
     Connected();
 
@@ -497,7 +538,7 @@ function init_UI() {
         position: { my: "top", at: "top", of: window },
         buttons: [{
             id: "connectionDlgOkBtn",
-            text: "tittle will be changed",
+            text: "title will be changed",
             click: function () {
                 local();
                 let login = connectionFromForm();
@@ -517,6 +558,31 @@ function init_UI() {
         }]
     })
     
+    $("#deconnectionDlg").dialog({
+        title:"...",
+        autoOpen: false,
+        modal : true,
+        show: { effect: 'fade', speed: 400 },
+        hide: { effect: 'fade', speed: 400 },
+        width: 500, minWidth: 500, maxWidth: 500,
+        height: 500, minHeight: 500, maxHeight: 500,
+        position: { my: "top", at: "top", of: window },
+        buttons: [{
+            id: "deconnectionDlgOkBtn",
+            text: "title will be changed",
+            click: function () {
+                DeleteToken()
+                $(this).dialog("close");
+            }
+        },
+        {
+            text: "Annuler",
+            click: function () {
+                holdCheckETag = false;
+                $(this).dialog("close");
+            }
+        }]
+    })
 
     $("#confirmDeleteDlg").dialog({
         title: "Attention!",

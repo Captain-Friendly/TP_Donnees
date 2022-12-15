@@ -105,7 +105,7 @@ module.exports =
         }
 
         // PUT:accounts/modify body payload[{"Id": 0, "Name": "...", "Email": "...", "Password": "..."}]
-        // ad in headers Authorization:acces_token
+        // add in headers Authorization:acces_token
         // when you change email, it need to be verified again
         modify(user) {
             if (this.writeAuthorization()) {

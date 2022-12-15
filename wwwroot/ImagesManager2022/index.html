@@ -56,14 +56,31 @@
                     </span>
                 </div>
                 <div class="connectionBar">
-                    <div class="buttons cmd fa fa-plus-square" id="newImageCmd" title="Ajouter un image" data-toggle="tooltip">
+                    <div class="ProfilePic">
+
                     </div>
-                    
-                    <div class="buttons cmd fa fa-user-plus" id="newUserCmd" title="Créer un nouvel usager" data-toggle="tooltip">
+
+
+                    <div class="ConnectedB">
+                        <div class="buttons cmd fa fa-plus-square" id="newImageCmd" title="Ajouter un image"
+                            data-toggle="tooltip">
+                        </div>
+                        <div class="buttons cmd fa fa-sign-out" id="deconnectionCmd" title="Se Deconnecter"
+                        data-toggle="tooltip">
                     </div>
-                    <div class="buttons cmd fa fa-sign-in " id="connectionCmd" title="Se connecter" data-toggle="tooltip">
                     </div>
-    
+
+
+                    <div class="NotConnectedB">
+                        <div class="buttons cmd fa fa-user-plus" id="newUserCmd" title="Créer un nouvel usager"
+                            data-toggle="tooltip">
+                        </div>
+                        <div class="buttons cmd fa fa-sign-in " id="connectionCmd" title="Se connecter"
+                            data-toggle="tooltip">
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -93,6 +110,9 @@
                     <div class="note">Cliquez-Déposez une image</div>
                 </form>
             </div>
+            <div id="deconnectionDlg">
+                <span id="deconnectionMessage"></span>
+            </div>
             <div id="confirmDeleteDlg">
                 <span id="confirmationMessage"></span>
             </div>
@@ -106,11 +126,11 @@
                     <input type="password" id="Password_inputC" class="form-control" required>
 
                     <label for="localC">Resté connecté </label>
-                    <input type="checkbox" id="localC" >
+                    <input type="checkbox" id="localC">
 
                 </form>
                 <div id="wrongCredential" style="color: red;">
-                    
+
                 </div>
             </div>
             <div id="errorDlg">
@@ -129,26 +149,26 @@
                     <label for="Email_input">Courriel</label>
                     <input type="text" id="Email_input" class="form-control" required>
 
-                        <label for="Password_input">Mot de Passe</label>
-                        <input type="text" id="Password_input" class="form-control" required>
-                        
-                        
-                        <label for="imageUser">Image</label>
-                        <div id='imageUser' class='ImageUploader' defaultImage='images/No_Avatar.png'
-                            waitingImage='images/writing2.gif'>
-                        </div>
-                        <div class="note">Cliquez-Déposez une image</div>
-                    </form>
-                </div>
-                <div id="VCodeDlg">
-                    <form id="VCodeForm">
-                        
-                        <label for="verif_code">Code de Verification</label>
-                        <input type="number" id="verif_code" class="form-control" required>
-                    </form>
-                </div>
+                    <label for="Password_input">Mot de Passe</label>
+                    <input type="text" id="Password_input" class="form-control" required>
+
+
+                    <label for="imageUser">Image</label>
+                    <div id='imageUser' class='ImageUploader' defaultImage='images/No_Avatar.png'
+                        waitingImage='images/writing2.gif'>
+                    </div>
+                    <div class="note">Cliquez-Déposez une image</div>
+                </form>
+            </div>
+            <div id="VCodeDlg">
+                <form id="VCodeForm">
+
+                    <label for="verif_code">Code de Verification</label>
+                    <input type="number" id="verif_code" class="form-control" required>
+                </form>
             </div>
         </div>
+    </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"></script>

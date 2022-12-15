@@ -42,6 +42,17 @@ function REGISTER(user,successCallBack, errorCallBack){
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }
+function LOGOUT(userid,successCallBack,errorCallBack){
+    // GET: /accounts/logout/id
+    $.ajax({
+        url: accountURL + "/logout/" + userid,
+        type: 'GET',
+        contentType: 'application/json',
+        data: JSON.stringify(userid),
+        success: (data, status, xhr) => { successCallBack(data) },
+        error: function (jqXHR) { errorCallBack(jqXHR.status) }
+    });
+}
 function LOGIN(login,successCallBack,errorCallBack){
     $.ajax({
         url: loginURL,
@@ -53,7 +64,7 @@ function LOGIN(login,successCallBack,errorCallBack){
     });
 }
 
-function INDEX(id,successCallBack,errorCallBack){
+function GetUser(id,successCallBack,errorCallBack){
     $.ajax({
         url: accountURL + `/index/${id}`,
         type: 'GET',
