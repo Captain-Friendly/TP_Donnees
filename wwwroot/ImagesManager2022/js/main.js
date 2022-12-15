@@ -279,7 +279,10 @@ function imageFromForm() {
             Title: $("#title_input").val(),
             Description: $("#description_input").val(),
             ImageData: ImageUploader.getImageData('image'),
-            Date: parseInt($("#date_input").val())
+            Date: parseInt($("#date_input").val()),
+            UserId : sessionStorage.getItem("UserId") ,
+            Shared : $("#partage").prop("checked")
+
         };
         return image;
     } else {
