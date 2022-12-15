@@ -113,7 +113,7 @@ function POST(data, successCallBack, errorCallBack) {
     });
 }
 
-function MODIFY_USER(modified_user, token, successCallBack, errorCallBack){
+function MODIFY_USER_API(modified_user, token, successCallBack, errorCallBack){
     $.ajax({
         url: modifyURL,
         type:'PUT',

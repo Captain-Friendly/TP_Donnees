@@ -103,13 +103,17 @@ function SaveUserAvatarUrl(user){
 
 function verified(){
     $("#VCodeDlg").dialog("close");
-    alert("Usager crée");
+    $("#Vcode_error_code").html("");
+    alert("Usager verifié");
 }
 
-function modified(){
+function modified(user){
+    debugger
     AddMode = true;
     holdCheckETag = false;
     $("#UserDlg").dialog("close");
+    $("#error_code").html("");
+    GetUser(sessionStorage.getItem("UserId"),logAndStoreUser,error)
     alert("Usager Modifié");
 }
 
@@ -230,6 +234,13 @@ function newUser() {
 }
 
 function logAndStoreUser(user){
+
+    if(user.VerifyCode != "verified"){
+        $("#VCodeDlg").dialog('option', 'title', "Vérification de courriel");
+        $("#VcodeDlgOkBtn").text("Confirmer");
+        $("#VCodeDlg").dialog('open');
+    }   
+
     sessionStorage.setItem("User_Name", user.Name);
     sessionStorage.setItem("User_Email", user.Email);
     sessionStorage.setItem("User_AvatarURL", user.AvatarURL);
@@ -271,10 +282,10 @@ function userToForm(user){
 
 
 function userFromForm() {
+    let confirmed_password = false;
+    if($("#Password_input").val() == $("#Password_input_confirm").val()) confirmed_password = true;
     if ($("#UserForm")[0].checkValidity()) {
-
-        let confirmed_password = false;
-        if($("#Password_input").val() == $("#Password_input_confirm").val()) confirmed_password = true;
+        
         
         let newUser = {
             Id: parseInt($("#user_Id_input").val()),
@@ -427,7 +438,7 @@ function wrongCredential(){
 }
 
 function wrongNumber(){
-    $("#VCodeDlg").append($(`<div id="error_code" style="color: red;">Code de Vérification invalide, Essayer à nouveux</div>`));
+    $("#Vcode_error_code").html("Code de Vérification invalide, Essayer à nouveux");
 }
 
 function local(){
@@ -574,10 +585,9 @@ function init_UI() {
                 e.preventDefault();
                 let user = userFromForm();
 
-                if(user.Confirmed_Password){
-                    delete user.Confirmed_Password;
-
-                    if (user) {
+                if (user) {
+                    if(user.Confirmed_Password){
+                        delete user.Confirmed_Password;
                         if (AddMode) { 
                             REGISTER(user, userCreated, error);
                         }
@@ -585,14 +595,19 @@ function init_UI() {
                         else{
                             
                             let token = sessionStorage.getItem("Access_token");
-                            debugger
-                            MODIFY_USER(user,token,modified,error);
+                            MODIFY_USER_API(user,token,modified,error);
                         } 
-                        
-                    }
-                }else{
-                    $("#UserDlg").append($(`<div id="error_code" style="color: red;">Mots de passes differents, Essayer à nouveux</div>`));
+
+                    }else
+                        $("#error_code").html("Mots de passes differents, Essayer à nouveux");
+
+                    
+                    
                 }
+                
+
+                    
+                
                 
             }
         },
