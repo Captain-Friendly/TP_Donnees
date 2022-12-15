@@ -88,10 +88,11 @@ function getUser(Token, ETag) {
     // TODO: in login, use the token, then use index
 }
 
+
+
+
 function userCreated(user){
-    let string = user.Id.toString();
-    sessionSTR.setItem("user", JSON.stringify(user))
-    sessionSTR.setItem("userId", string);
+    sessionStorage.setItem("UserId", user.Id);
     $("#VCodeDlg").dialog('option', 'title', "Vérification de courriel");
     $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');
@@ -231,6 +232,8 @@ function deleteimage(e) {
     $("#confirmDeleteDlgOkBtn").text("Effacer");
     $("#confirmDeleteDlg").dialog('open');
 }
+
+
 function resetimageForm() {
     
     $("#Id_input").val("0");
@@ -240,6 +243,8 @@ function resetimageForm() {
     $("#description_input").val("");
     ImageUploader.resetImage('image');
 }
+
+
 function resetUserForm() {
     $("#Id_input").val("0");
     $("#GUID_input").val("");
@@ -282,6 +287,7 @@ function imageFromForm() {
     }
     return false;
 }
+
 function userFromForm() {
     if ($("#newUserForm")[0].checkValidity()) {
         let id = parseInt($("#user_Id_input").val());
@@ -315,6 +321,7 @@ function codeFromForm(){
     }
 }
 
+
 /**
  * To Edit images
  * @param {*} image 
@@ -345,6 +352,7 @@ function connection(){
 
 function verified(){
     $("#VCodeDlg").dialog("close");
+    
 }
 
 function wrongCredential(){
@@ -387,6 +395,7 @@ function Connected(){
         $(".ConnectedB").hide();
         $(".NotConnectedB").show();
     }
+
     else{ // connected
         GetUser(parseInt(sessionStorage.getItem("UserId"),10) ,profilePic,error); // profile pic
         $(".ConnectedB").show();
