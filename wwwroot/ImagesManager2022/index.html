@@ -23,7 +23,7 @@
         <div class="headerPanel">
             <div class="headerLayout">
                 <img src="images/camera.png" alt="" data-toggle="tooltip" class="favicon" title="Gestionnaire d'images">
-                <div style="display:flex">
+                <div style="display:flex" id="aboutCmd">
                     <span class="header outLinedText tbg-yellow">
                         P
                     </span>
@@ -59,11 +59,8 @@
 
 
                     <div class="ConnectedB">
-                        <div class="ProfilePic"> </div>
-
-                        <div class="buttons cmd fa fa-info" id="aboutCmd" title="A propos" data-toggle="tooltip">
+                        <div class="ProfilePic">
                         </div>
-
                         <div class="buttons cmd fa fa-plus-square" id="newImageCmd" title="Ajouter un image"
                             data-toggle="tooltip">
                             
@@ -78,9 +75,6 @@
 
 
                     <div class="NotConnectedB">
-                        <div class="buttons cmd fa fa-info" id="aboutCmd" title="A propos"
-                        data-toggle="tooltip">
-                    </div>
                         <div class="buttons cmd fa fa-user-plus" id="newUserCmd" title="Créer un nouvel usager"
                             data-toggle="tooltip">
                         </div>
@@ -116,6 +110,10 @@
                         waitingImage='images/writing.gif'>
                     </div>
                     <div class="note">Cliquez-Déposez une image</div>
+
+                    <Label for="partage">Partager</Label>
+                    <input type="checkbox" id="partage">
+
                 </form>
             </div>
             <div id="aboutDlg">

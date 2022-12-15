@@ -358,7 +358,10 @@ function imageFromForm() {
             Title: $("#title_input").val(),
             Description: $("#description_input").val(),
             ImageData: ImageUploader.getImageData('image'),
-            Date: parseInt($("#date_input").val())
+            Date: parseInt($("#date_input").val()),
+            UserId : sessionStorage.getItem("UserId") ,
+            Shared : $("#partage").prop("checked")
+
         };
         return image;
     } else {
@@ -454,7 +457,7 @@ function Connected(){
 function about(){
     holdCheckETag = true;
     $("#aboutDlg").dialog('option', 'title', "Les createurs");
-    $("")
+    $("#aboutMessage").text("Faite par Thomas Lavoie et Julian Angel Murilo");
     $("#aboutDlg").dialog('open'); 
 }
 
