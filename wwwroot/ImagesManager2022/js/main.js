@@ -417,8 +417,7 @@ function init_UI() {
     $("#newUserCmd").on("click", newUser);
     $("#connectionCmd").on("click",connection)
     $("#deconnectionCmd").on("click",deconnection)
-    $("#aboutCmd1").on("click",about);
-    $("#aboutCmd2").on("click",about);
+    $("#aboutCmd").on("click",about);
 
     Connected();
 
