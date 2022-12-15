@@ -8,6 +8,7 @@ const baseURL = "http://localhost:5000";
 const apiBaseURL = baseURL + "/api/images";
 const accountURL = baseURL + "/accounts";
 const loginURL = baseURL + "/token";
+const modifyURL = baseURL + "/modify"
 
 
 function HEAD(successCallBack, errorCallBack) {
@@ -114,6 +115,22 @@ function POST(data, successCallBack, errorCallBack) {
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }
+
+function MODIFY_USER(modified_user, token){
+    $.ajax({
+        url: modifyURL,
+        type:'POST',
+        headers:{
+            Authorization:token
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: (data) => { successCallBack(data) },
+        error: function (jqXHR) { errorCallBack(jqXHR.status) }
+    });
+}   
+
+
 function PUT(bookmark, successCallBack, errorCallBack) {
     $.ajax({
         url: apiBaseURL + "/" + bookmark.Id,
