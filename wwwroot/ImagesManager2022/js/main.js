@@ -223,7 +223,6 @@ function logAndStoreUser(user){
     sessionStorage.setItem("User_Email", user.Email);
     sessionStorage.setItem("User_AvatarURL", user.AvatarURL);
     sessionStorage.setItem("User_AvatarGUID", user.AvatarGUID);
-
     $(".ProfilePic").html(`<div class="avatar buttons" style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;"> </div>`);
 
 }
@@ -234,12 +233,14 @@ function modifyUser(){
     AddMode = false;
 
     let user = {
-        Id: localStorage.getItem("UserId"),
-        Name:localStorage.getItem("User_Name"),
-        Email: localStorage.getItem("User_Email"),
-        AvatarURL : localStorage.getItem("User_AvatarURL"),
-        AvatarGUID: localStorage.getItem("User_AvatarGUID")
+        Id: sessionStorage.getItem("UserId"),
+        Name:sessionStorage.getItem("User_Name"),
+        Email: sessionStorage.getItem("User_Email"),
+        AvatarURL : sessionStorage.getItem("User_AvatarURL"),
+        AvatarGUID: sessionStorage.getItem("User_AvatarGUID")
     }
+
+
     userToForm(user);
     $("#UserDlg").dialog('option', 'title', "Modification d'utilisateur");
     $("#UserDlgOkBtn").text("Modifier");
@@ -332,6 +333,7 @@ function resetUserForm() {
     $("#name_input").val("");
     $("#Email_input").val("");
     $("#Password_input").val("");
+    $("#Password_input_confirm").val("");
 
     ImageUploader.resetImage('imageUser');
 }
@@ -468,7 +470,7 @@ function init_UI() {
     $("#connectionCmd").on("click",connection)
     $("#deconnectionCmd").on("click",deconnection)
     $("#aboutCmd").on("click",about);
-    $("#modifyCmd").on("click", )
+    $("#modifyCmd").on("click", modifyUser)
 
     
 
@@ -565,6 +567,7 @@ function init_UI() {
                         //if we are modifying a user
                         else{
                             let token = sessionStorage.getItem("Access_token");
+                            debugger
                             MODIFY_USER(user,token,modified,error);
                         } 
                         
