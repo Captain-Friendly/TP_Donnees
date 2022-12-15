@@ -33,7 +33,6 @@ function HEAD(successCallBack, errorCallBack) {
     }
 */
 function REGISTER(user,successCallBack, errorCallBack){
-    debugger
     $.ajax({
         url: accountURL+"/register",
         type: 'POST',
@@ -77,7 +76,6 @@ function GetUser(id,successCallBack,errorCallBack){
 }
 
 function VERIFY_USER(code,userId, successCallBack, errorCallBack){
-    debugger
     $.ajax({
        url:accountURL + `/verify?id=${userId}&code=${code}`,
        type:'GET',
@@ -116,7 +114,7 @@ function POST(data, successCallBack, errorCallBack) {
     });
 }
 
-function MODIFY_USER(modified_user, token){
+function MODIFY_USER(modified_user, token, successCallBack, errorCallBack){
     $.ajax({
         url: modifyURL,
         type:'POST',

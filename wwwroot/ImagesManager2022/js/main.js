@@ -27,9 +27,6 @@ let appendMode = false;
 
 let token;
 let local_user;
-
-const sessionSTR = window.sessionStorage;
-
 init_UI();
 HEAD(checkETag, error);
 setInterval(() => { HEAD(checkETag, error) }, periodicRefreshPeriod * 1000);
@@ -92,11 +89,28 @@ function getUser(Token, ETag) {
 
 
 function userCreated(user){
-    sessionStorage.setItem("UserId", user.Id);
+    resetUserForm();
+    holdCheckETag = false;
+    $("#UserDlg").dialog("close");
+
     $("#VCodeDlg").dialog('option', 'title', "Vérification de courriel");
     $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');
 }
+
+function verified(){
+    $("#VCodeDlg").dialog("close");
+    alert("Usager crée");
+}
+
+function modified(){
+    AddMode = true;
+    holdCheckETag = false;
+    $("#UserDlg").dialog("close");
+    alert("Usager Modifié");
+}
+
+
 
 function refreshimagesList(images, ETag) {
     
@@ -199,10 +213,75 @@ function newUser() {
     AddMode = true;
     resetUserForm();
     ImageUploader.imageRequired('imageUser', true);
-    $("#newUserDlg").dialog('option', 'title', "Création d'utilisateur");
-    $("#newUserDlgOkBtn").text("Créer");
-    $("#newUserDlg").dialog('open');
+    $("#UserDlg").dialog('option', 'title', "Création d'utilisateur");
+    $("#UserDlgOkBtn").text("Créer");
+    $("#UserDlg").dialog('open');
 }
+
+function logAndStoreUser(user){
+    sessionStorage.setItem("User_Name", user.Name);
+    sessionStorage.setItem("User_Email", user.Email);
+    sessionStorage.setItem("User_AvatarURL", user.AvatarURL);
+    sessionStorage.setItem("User_AvatarGUID", user.AvatarGUID);
+
+    $(".ProfilePic").html(`<div class="avatar buttons" style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;"> </div>`);
+
+}
+
+
+function modifyUser(){
+    holdCheckETag = true;
+    AddMode = false;
+
+    let user = {
+        Id: localStorage.getItem("UserId"),
+        Name:localStorage.getItem("User_Name"),
+        Email: localStorage.getItem("User_Email"),
+        AvatarURL : localStorage.getItem("User_AvatarURL"),
+        AvatarGUID: localStorage.getItem("User_AvatarGUID")
+    }
+    userToForm(user);
+    $("#UserDlg").dialog('option', 'title', "Modification d'utilisateur");
+    $("#UserDlgOkBtn").text("Modifier");
+    $("#UserDlg").dialog('open');
+
+}
+
+
+function userToForm(user){
+    resetUserForm();
+    parseInt($("#user_Id_input").val(user.Id))
+    $("#name_input").val(user.Name);
+    $("#Email_input").val(user.Email);
+    ImageUploader.setImage('imageUser', user.AvatarURL);
+    $("#AvatarGUID_input").val(user.AvatarGUID);
+}
+
+
+function userFromForm() {
+    if ($("#UserForm")[0].checkValidity()) {
+
+        let confirmed_password = false;
+        if($("#Password_input").val() == $("#Password_input_confirm").val()) confirmed_password = true;
+        
+        let newUser = {
+            Id: parseInt($("#user_Id_input").val()),
+            Name: $("#name_input").val(),
+            Email: $("#Email_input").val(),
+            Password: $("#Password_input").val(),
+            Confirmed_Password:confirmed_password,
+            AvatarGUID: $("#AvatarGUID_input").val(),
+            ImageData: ImageUploader.getImageData('imageUser'),
+            Created: parseInt($("#created_input").val()),
+            VerifyCode: parseInt($("#VerifyCode_input").val()),
+        };
+        return newUser;
+    } else {
+        $("#UserForm")[0].reportValidity();
+    }
+}
+
+
 
 
 function editimage(e) {
@@ -288,29 +367,7 @@ function imageFromForm() {
     return false;
 }
 
-function userFromForm() {
-    if ($("#newUserForm")[0].checkValidity()) {
-        let id = parseInt($("#user_Id_input").val());
 
-        let confirmed_password = false;
-        if($("#Password_input").val() == $("#Password_input_confirm").val()) confirmed_password = true;
-        
-        let newUser = {
-            Id: id,
-            Name: $("#name_input").val(),
-            Email: $("#Email_input").val(),
-            Password: $("#Password_input").val(),
-            Confirmed_Password:confirmed_password,
-            AvatarGUID: $("#AvatarGUID_input").val(),
-            ImageData: ImageUploader.getImageData('imageUser'),
-            Created: parseInt($("#created_input").val()),
-            VerifyCode: parseInt($("#VerifyCode_input").val()),
-        };
-        return newUser;
-    } else {
-        $("#newUserForm")[0].reportValidity();
-    }
-}
 
 function codeFromForm(){
     if ($("#VCodeForm")[0].checkValidity()) {
@@ -322,10 +379,7 @@ function codeFromForm(){
 }
 
 
-/**
- * To Edit images
- * @param {*} image 
- */
+
 function imageToForm(image) {
     $("#Id_input").val(image.Id);
     $("#GUID_input").val(image.GUID);
@@ -350,10 +404,7 @@ function connection(){
     $("#connectionDlg").dialog('open');
 }
 
-function verified(){
-    $("#VCodeDlg").dialog("close");
-    
-}
+
 
 function wrongCredential(){
     $("#wrongCredential").text("ERREUR: le mot de passe ou le courriel est incorrect");
@@ -367,11 +418,7 @@ function local(){
     sessionStorage.setItem("local",$("#localC").prop("checked"));  
 }
 
-function profilePic(user){
-    $(".ProfilePic").html(`<div class="avatar buttons"
-    style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;">
-    </div>`)
-}
+
 
 function DeleteToken(){
     let userid = sessionStorage.getItem("UserId");
@@ -397,7 +444,7 @@ function Connected(){
     }
 
     else{ // connected
-        GetUser(parseInt(sessionStorage.getItem("UserId"),10) ,profilePic,error); // profile pic
+        GetUser(parseInt(sessionStorage.getItem("UserId"),10) ,logAndStoreUser,error); // profile pic
         $(".ConnectedB").show();
         $(".NotConnectedB").hide();
     }
@@ -418,6 +465,9 @@ function init_UI() {
     $("#connectionCmd").on("click",connection)
     $("#deconnectionCmd").on("click",deconnection)
     $("#aboutCmd").on("click",about);
+    $("#modifyCmd").on("click", )
+
+    
 
     Connected();
 
@@ -482,7 +532,7 @@ function init_UI() {
         }]
     });
 
-    $("#newUserDlg").dialog({
+    $("#UserDlg").dialog({
         title: "...",
         autoOpen: false,
         modal: true,
@@ -496,29 +546,28 @@ function init_UI() {
         maxHeight: 780,
         position: { my: "top", at: "top", of: window },
         buttons: [{
-            id: "newUserDlgOkBtn",
+            id: "UserDlgOkBtn",
             text: "Title will be changed dynamically",
             click: function (e) {
                 e.preventDefault();
-                let newUser = userFromForm();
+                let user = userFromForm();
 
-                if(newUser.Confirmed_Password){
-                    delete newUser.Confirmed_Password;
+                if(user.Confirmed_Password){
+                    delete user.Confirmed_Password;
 
-                    if (newUser) {
-                        if (AddMode) { // if we are adding a new user
-                            // TODO: ask question on register and PUT(image, getImagesList, error);// add image
-                            REGISTER(newUser, userCreated, error);
-                            // $(".scrollContainer").scrollTop(0);
+                    if (user) {
+                        if (AddMode) { 
+                            REGISTER(user, userCreated, error);
                         }
-                        // else //if we are modifying a user
-                        //     // PUT(image, getImagesList, error)
-                        resetUserForm();
-                        holdCheckETag = false;
-                        $(this).dialog("close");
+                        //if we are modifying a user
+                        else{
+                            let token = sessionStorage.getItem("Access_token");
+                            MODIFY_USER(user,token,modified,error);
+                        } 
+                        
                     }
                 }else{
-                    $("#newUserDlg").append($(`<div id="error_code" style="color: red;">Mots de passes differents, Essayer à nouveux</div>`));
+                    $("#UserDlg").append($(`<div id="error_code" style="color: red;">Mots de passes differents, Essayer à nouveux</div>`));
                 }
                 
             }
@@ -550,7 +599,8 @@ function init_UI() {
             text: "Title will be changed dynamically",
             click: function () {
                 let code = codeFromForm();
-                let userId = sessionSTR.getItem("userId")
+                
+                let userId = sessionStorage.getItem("UserId");
                 VERIFY_USER(code, userId,verified, wrongNumber);         
             }
         }]
