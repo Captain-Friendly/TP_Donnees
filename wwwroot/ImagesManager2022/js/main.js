@@ -56,16 +56,36 @@ function getImagesList(refresh = true) {
 }
 
 function getUser(Token, ETag) {
-    
-    //INDEX(Token);
-    
+    $("#connectionDlg").dialog("close");
+    /*
+    "Id": 1,
+    "Access_token": "395393fc51f31256e24e848675cf6ba530d93a12380ab67e71bb8b761c664477",
+    "UserId": 3,
+    "Username": "Moi",
+    "Expire_Time": 1671130497
+
+    */
+
+    if(sessionStorage.getItem("local")){
+        localStorage.setItem("Access_token",Token.Access_token);
+        localStorage.setItem("UserId",Token.userId);
+        localStorage.setItem("Username",Token.Username);
+    }
+    else{
+        sessionStorage.setItem("Access_token",Token.Access_token);
+        sessionStorage.setItem("UserId",Token.userId);
+        sessionStorage.setItem("Username",Token.Username);
+    }
+    //sessionStorage.setItem("token",Token);
+    //localStorage.setItem("token",Token);
+
     // if () verify user with dialog
 
     // LOGIN USER
     // TODO: in login, use the token, then use index
     // previousScrollPosition = previousScrollPosition = $(".scrollContainer").scrollTop();
     // $(".scrollContainer").scrollTop(previousScrollPosition);
-    $('[data-toggle="tooltip"]').tooltip();
+    //$('[data-toggle="tooltip"]').tooltip();
 }
 function insertUser(user) {
     $(".buttons").append(
@@ -244,6 +264,7 @@ function resetUserForm() {
 
 function connectionFromForm(){
     if($("#connectionForm")[0].checkValidity()){
+
         let login = {
             Email: $("#Email_inputC").val(),
             Password: $("#Password_inputC").val()
@@ -324,8 +345,24 @@ function verified(){
     $("#VCodeDlg").dialog("close");
 }
 
+function wrongCredential(){
+    $("#wrongCredential").text("ERREUR: le mot de passe ou le courriel est incorrect");
+}
+
 function wrongNumber(){
     $("#VCodeDlg").append($(`<div id="error_code" style="color: red;">Code de Vérification invalide, Essayer à nouveux</div>`));
+}
+
+function local(){
+    sessionStorage.setItem("local",$("#localC").prop("checked"));  
+}
+
+function Connected(){
+
+    if(localStorage.getItem("itemblbl") != null){
+        $(".connectionBar").hide();
+    }
+
 }
 
 function init_UI() {
@@ -334,6 +371,7 @@ function init_UI() {
     $("#newUserCmd").on("click", newUser);
     $("#connectionCmd").on("click",connection)
 
+    Connected();
 
     $("#imageDlg").dialog({
         title: "...",
@@ -461,10 +499,11 @@ function init_UI() {
             id: "connectionDlgOkBtn",
             text: "tittle will be changed",
             click: function () {
+                local();
                 let login = connectionFromForm();
                 if(login){
-                LOGIN(login,getUser,error);
-                $(this).dialog("close");
+                LOGIN(login,getUser,wrongCredential);
+                //$(this).dialog("close");
                 }
 
             }
@@ -531,7 +570,7 @@ function init_UI() {
 
     $(".scrollContainer").scroll(function () {
         if ($(".scrollContainer").scrollTop() + $(".scrollContainer").innerHeight() >= $("#imagesList").height()) {
-            debugger
+            //debugger
             getImagesList(false);
         }
     });
