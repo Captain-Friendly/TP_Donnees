@@ -366,10 +366,9 @@ function local(){
 }
 
 function profilePic(user){
-    //style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;"
-    //$(".ProfilePic").css("background",`url('${user.AvatarURL}') no-repeat center center`);
-    //$(".ProfilePic").css("background-size",`cover`);
-    debugger;
+    $(".ProfilePic").append(`<div class="avatar buttons"
+    style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;">
+    </div>`)
 }
 
 function DeleteToken(){
