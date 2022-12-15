@@ -68,9 +68,7 @@ function GetUser(id,successCallBack,errorCallBack){
     $.ajax({
         url: accountURL + `/index/${id}`,
         type: 'GET',
-        contentType: 'application/json',
-        data: JSON.stringify(id),
-        success: (data, status, xhr) => { successCallBack(data) },
+        success: data => { successCallBack(data) },
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }

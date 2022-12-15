@@ -97,9 +97,6 @@ function userCreated(user){
     $("#VCodeDlg").dialog('open');
 }
 
-function SaveUserAvatarUrl(user){
-    sessionStorage.setItem("AvatarURL",user.AvatarURL);
-}
 
 function verified(){
     $("#VCodeDlg").dialog("close");
@@ -114,13 +111,8 @@ function modified(){
 }
 
 
-
 function refreshimagesList(images, ETag) {
     function insertIntoImageList(image) {
-
-        GetUser(parseInt(image.UserId,10),SaveUserAvatarUrl,error); 
-
-
         $("#imagesList").append(
             $(` 
                 <div class='imageLayout'>
@@ -137,7 +129,7 @@ function refreshimagesList(images, ETag) {
                                 data-toggle="tooltip">
                         </div>
                     </div>                   
-                    <div class="AvatarImage"
+                    <div class="avatar button"
                     style="background: url('${sessionStorage.getItem("AvatarURL")}') no-repeat center center;
                      background-size: cover; width: 50px;">
                     </div>
@@ -171,7 +163,7 @@ function refreshimagesList(images, ETag) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
-    sessionStorage.removeItem("AvatarURL");
+    //sessionStorage.removeItem("AvatarURL");
 }
 
 function error(status) {
