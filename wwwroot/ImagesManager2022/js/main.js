@@ -454,6 +454,12 @@ function Connected(){
     if(localStorage.getItem("UserId") != null){ // set le session = local
         sessionStorage.setItem("UserId",localStorage.getItem("UserId"));
     }
+    if(localStorage.getItem("Access_token") != null){ // set le session = local
+        sessionStorage.setItem("Access_token",localStorage.getItem("Access_token"));
+    }
+    if(localStorage.getItem("Username") != null){ // set le session = local
+        sessionStorage.setItem("Username",localStorage.getItem("Username"));
+    }
 
     if(sessionStorage.getItem("UserId") == null){ // not connected
         $(".ConnectedB").hide();
