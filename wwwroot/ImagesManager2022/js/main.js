@@ -32,6 +32,7 @@ setInterval(() => { HEAD(checkETag, error) }, periodicRefreshPeriod * 1000);
 function checkETag(ETag) {
     if (!holdCheckETag && ETag != currentETag) {
         currentETag = ETag;
+        debugger
         getImagesList();
     }
 }
@@ -62,8 +63,8 @@ function getUser(Token, ETag) {
 
     // LOGIN USER
     // TODO: in login, use the token, then use index
-    previousScrollPosition = previousScrollPosition = $(".scrollContainer").scrollTop();
-    $(".scrollContainer").scrollTop(previousScrollPosition);
+    // previousScrollPosition = previousScrollPosition = $(".scrollContainer").scrollTop();
+    // $(".scrollContainer").scrollTop(previousScrollPosition);
     $('[data-toggle="tooltip"]').tooltip();
 }
 function insertUser(user) {
@@ -75,10 +76,11 @@ function insertUser(user) {
     );
 }
 
-function userCreated(user, ETag){
-    let string = user.Id.toString();
+function userCreated(user){
     debugger
-    sessionSTR.setItem("userId", string),
+    let string = user.Id.toString();
+    sessionSTR.setItem("user", JSON.stringify(user))
+    sessionSTR.setItem("userId", string);
     $("#VCodeDlg").dialog('option', 'title', "Donner le code de Vérification");
     $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');
@@ -86,6 +88,7 @@ function userCreated(user, ETag){
 }
 
 function refreshimagesList(images, ETag) {
+    debugger
     function insertIntoImageList(image) {
 
         $("#imagesList").append(
@@ -115,7 +118,7 @@ function refreshimagesList(images, ETag) {
         );
     }
     currentETag = ETag;
-    previousScrollPosition = $(".scrollContainer").scrollTop();
+    // previousScrollPosition = $(".scrollContainer").scrollTop();
     if (!appendMode) $("#imagesList").empty();
 
     if (appendMode && images.length == 0)
@@ -125,7 +128,7 @@ function refreshimagesList(images, ETag) {
         insertIntoImageList(image);
     }
 
-    $(".scrollContainer").scrollTop(previousScrollPosition);
+    // $(".scrollContainer").scrollTop(previousScrollPosition);
     $(".editCmd").off();
     $(".deleteCmd").off();
     $(".showMore").off();
@@ -168,6 +171,7 @@ function error(status) {
 }
 
 function newImage() {
+    debugger
     holdCheckETag = true;
     createMode = true;
     resetimageForm();
@@ -179,6 +183,7 @@ function newImage() {
 
 function newUser() {
     //https://yopmail.com/en/
+    debugger
     holdCheckETag = true;
     AddMode = true;
     resetUserForm();
@@ -217,6 +222,7 @@ function deleteimage(e) {
     $("#confirmDeleteDlg").dialog('open');
 }
 function resetimageForm() {
+    debugger
     $("#Id_input").val("0");
     $("#GUID_input").val("");
     $("#date_input").val(Date.now());
@@ -349,10 +355,12 @@ function init_UI() {
                 let image = imageFromForm();
                 if (image) {
                     if (createMode) {
+                        debugger
                         POST(image, getImagesList, error);
                         $(".scrollContainer").scrollTop(0);
                     }
                     else
+                        debugger
                         PUT(image, getImagesList, error); 
                     resetimageForm();
                     holdCheckETag = false;
@@ -385,16 +393,18 @@ function init_UI() {
         buttons: [{
             id: "newUserDlgOkBtn",
             text: "Title will be changed dynamically",
-            click: function () {
+            click: function (e) {
+                e.preventDefault();
                 let newUser = userFromForm();
                 if (newUser) {
                     if (AddMode) { // if we are adding a new user
-                        // TODO: ask question on register and PUT(image, getImagesList, error);
+                        // TODO: ask question on register and PUT(image, getImagesList, error);// add image
                         REGISTER(newUser, userCreated, error);
-                        $(".scrollContainer").scrollTop(0);
+                        // $(".scrollContainer").scrollTop(0);
+                        debugger
                     }
                     // else //if we are modifying a user
-                    //     // PUT(image, getImagesList, error);
+                    //     // PUT(image, getImagesList, error)
                     resetUserForm();
                     holdCheckETag = false;
                     $(this).dialog("close");
@@ -484,6 +494,7 @@ function init_UI() {
             click: function () {
                 holdCheckETag = false;
                 if (imageIdToDelete)
+                    debugger
                     DELETE(imageIdToDelete, getImagesList, error);
                 imageIdToDelete = 0;
                 $(this).dialog("close");
@@ -520,6 +531,7 @@ function init_UI() {
 
     $(".scrollContainer").scroll(function () {
         if ($(".scrollContainer").scrollTop() + $(".scrollContainer").innerHeight() >= $("#imagesList").height()) {
+            debugger
             getImagesList(false);
         }
     });
