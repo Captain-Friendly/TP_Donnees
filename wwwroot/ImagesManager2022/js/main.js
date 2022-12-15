@@ -72,11 +72,10 @@ function SaveToken(Token, ETag) {
         localStorage.setItem("UserId",Token.UserId);
         localStorage.setItem("Username",Token.Username);
     }
-    else{
-        sessionStorage.setItem("Access_token",Token.Access_token);
-        sessionStorage.setItem("UserId",Token.UserId);
-        sessionStorage.setItem("Username",Token.Username);
-    }
+    
+    sessionStorage.setItem("Access_token",Token.Access_token);
+    sessionStorage.setItem("UserId",Token.UserId);
+    sessionStorage.setItem("Username",Token.Username);
 
     refresh()
     // if () verify user with dialog
