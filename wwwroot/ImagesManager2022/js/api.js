@@ -96,7 +96,7 @@ function GET_ID(id, successCallBack, errorCallBack) {
     });
 }
 function GET_ALL(successCallBack, errorCallBack, queryString = null) {
-    debugger
+    //debugger
     let url = apiBaseURL + (queryString ? queryString : "");
     $.ajax({
         url: url,

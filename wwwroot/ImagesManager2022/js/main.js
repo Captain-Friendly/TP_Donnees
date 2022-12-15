@@ -59,7 +59,7 @@ function getImagesList(refresh = true) {
     GET_ALL(refreshimagesList, error, prepareQueryString());
 }
 
-function getUser(Token, ETag) {
+function SaveToken(Token, ETag) {
     $("#connectionDlg").dialog("close");
     /*
     "Id": 1,
@@ -98,9 +98,15 @@ function userCreated(user){
     $("#VCodeDlg").dialog('open');
 }
 
+function SaveUserAvatarUrl(user){
+    sessionStorage.setItem("AvatarURL",user.AvatarURL);
+}
+
 function refreshimagesList(images, ETag) {
-    
     function insertIntoImageList(image) {
+
+        GetUser(parseInt(image.UserId,10),SaveUserAvatarUrl,error); 
+
 
         $("#imagesList").append(
             $(` 
@@ -117,6 +123,10 @@ function refreshimagesList(images, ETag) {
                                 title="Effacer ${image.Title}" 
                                 data-toggle="tooltip">
                         </div>
+                    </div>                   
+                    <div class="AvatarImage"
+                    style="background: url('${sessionStorage.getItem("AvatarURL")}') no-repeat center center;
+                     background-size: cover; width: 50px;">
                     </div>
                     <a href="${image.OriginalURL}" target="_blank">
                         <div    class='image' 
@@ -147,6 +157,8 @@ function refreshimagesList(images, ETag) {
     $(".deleteCmd").click(e => { deleteimage(e) });
 
     $('[data-toggle="tooltip"]').tooltip();
+
+    sessionStorage.removeItem("AvatarURL");
 }
 
 function error(status) {
@@ -575,7 +587,7 @@ function init_UI() {
                 local();
                 let login = connectionFromForm();
                 if(login){
-                LOGIN(login,getUser,wrongCredential);
+                LOGIN(login,SaveToken,wrongCredential);
                 //$(this).dialog("close");
                 }
 
