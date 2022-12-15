@@ -56,7 +56,7 @@ function getImagesList(refresh = true) {
 
 function getUser(Token, ETag) {
     
-
+    //INDEX(Token);
     
     // if () verify user with dialog
 
