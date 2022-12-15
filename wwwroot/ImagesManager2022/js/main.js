@@ -37,7 +37,6 @@ setInterval(() => { HEAD(checkETag, error) }, periodicRefreshPeriod * 1000);
 function checkETag(ETag) {
     if (!holdCheckETag && ETag != currentETag) {
         currentETag = ETag;
-        debugger
         getImagesList();
     }
 }
@@ -98,7 +97,6 @@ function insertUser(user) {
 }
 
 function userCreated(user){
-    debugger
     let string = user.Id.toString();
     sessionSTR.setItem("user", JSON.stringify(user))
     sessionSTR.setItem("userId", string);
@@ -109,7 +107,7 @@ function userCreated(user){
 }
 
 function refreshimagesList(images, ETag) {
-    debugger
+    
     function insertIntoImageList(image) {
 
         $("#imagesList").append(
@@ -192,7 +190,7 @@ function error(status) {
 }
 
 function newImage() {
-    debugger
+    
     holdCheckETag = true;
     createMode = true;
     resetimageForm();
@@ -204,7 +202,7 @@ function newImage() {
 
 function newUser() {
     //https://yopmail.com/en/
-    debugger
+    
     holdCheckETag = true;
     AddMode = true;
     resetUserForm();
@@ -243,7 +241,7 @@ function deleteimage(e) {
     $("#confirmDeleteDlg").dialog('open');
 }
 function resetimageForm() {
-    debugger
+    
     $("#Id_input").val("0");
     $("#GUID_input").val("");
     $("#date_input").val(Date.now());
@@ -296,11 +294,16 @@ function imageFromForm() {
 function userFromForm() {
     if ($("#newUserForm")[0].checkValidity()) {
         let id = parseInt($("#user_Id_input").val());
+
+        let confirmed_password = false;
+        if($("#Password_input").val() == $("#Password_input_confirm").val()) confirmed_password = true;
+        
         let newUser = {
             Id: id,
             Name: $("#name_input").val(),
             Email: $("#Email_input").val(),
             Password: $("#Password_input").val(),
+            Confirmed_Password:confirmed_password,
             AvatarGUID: $("#AvatarGUID_input").val(),
             ImageData: ImageUploader.getImageData('imageUser'),
             Created: parseInt($("#created_input").val()),
@@ -369,7 +372,7 @@ function profilePic(user){
     style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;"
     $(".ProfilePic").css("background",`url('${user.AvatarGUID}') no-repeat center center`);
     $(".ProfilePic").css("background-size",`cover`);
-    debugger;
+    ;
 }
 
 function DeleteToken(){
@@ -397,7 +400,7 @@ function Connected(){
         $(".NotConnectedB").show();
     }
     else{ // connected
-        //debugger;
+        //;
         GetUser(parseInt(sessionStorage.getItem("UserId"),10) ,profilePic,error);
         $(".ConnectedB").show();
         $(".NotConnectedB").hide();
@@ -434,12 +437,12 @@ function init_UI() {
                 let image = imageFromForm();
                 if (image) {
                     if (createMode) {
-                        debugger
+                        
                         POST(image, getImagesList, error);
                         $(".scrollContainer").scrollTop(0);
                     }
                     else
-                        debugger
+                        
                         PUT(image, getImagesList, error); 
                     resetimageForm();
                     holdCheckETag = false;
@@ -475,19 +478,26 @@ function init_UI() {
             click: function (e) {
                 e.preventDefault();
                 let newUser = userFromForm();
-                if (newUser) {
-                    if (AddMode) { // if we are adding a new user
-                        // TODO: ask question on register and PUT(image, getImagesList, error);// add image
-                        REGISTER(newUser, userCreated, error);
-                        // $(".scrollContainer").scrollTop(0);
-                        debugger
+
+                if(newUser.Confirmed_Password){
+                    delete newUser.Confirmed_Password;
+
+                    if (newUser) {
+                        if (AddMode) { // if we are adding a new user
+                            // TODO: ask question on register and PUT(image, getImagesList, error);// add image
+                            REGISTER(newUser, userCreated, error);
+                            // $(".scrollContainer").scrollTop(0);
+                        }
+                        // else //if we are modifying a user
+                        //     // PUT(image, getImagesList, error)
+                        resetUserForm();
+                        holdCheckETag = false;
+                        $(this).dialog("close");
                     }
-                    // else //if we are modifying a user
-                    //     // PUT(image, getImagesList, error)
-                    resetUserForm();
-                    holdCheckETag = false;
-                    $(this).dialog("close");
+                }else{
+                    $("#newUserDlg").append($(`<div id="error_code" style="color: red;">Mots de passes differents, Essayer à nouveux</div>`));
                 }
+                
             }
         },
         {
@@ -599,7 +609,6 @@ function init_UI() {
             click: function () {
                 holdCheckETag = false;
                 if (imageIdToDelete)
-                    debugger
                     DELETE(imageIdToDelete, getImagesList, error);
                 imageIdToDelete = 0;
                 $(this).dialog("close");
@@ -636,7 +645,6 @@ function init_UI() {
 
     $(".scrollContainer").scroll(function () {
         if ($(".scrollContainer").scrollTop() + $(".scrollContainer").innerHeight() >= $("#imagesList").height()) {
-            //debugger
             getImagesList(false);
         }
     });
