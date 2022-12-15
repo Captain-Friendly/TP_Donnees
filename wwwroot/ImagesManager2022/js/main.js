@@ -87,14 +87,6 @@ function getUser(Token, ETag) {
     // LOGIN USER
     // TODO: in login, use the token, then use index
 }
-function insertUser(user) {
-    $(".buttons").append(
-        $(`
-            <div class="avatar buttons"
-                style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;">
-                </div>`)
-    );
-}
 
 function userCreated(user){
     let string = user.Id.toString();
@@ -103,7 +95,6 @@ function userCreated(user){
     $("#VCodeDlg").dialog('option', 'title', "Vérification de courriel");
     $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');
-    insertUser(user);
 }
 
 function refreshimagesList(images, ETag) {
@@ -375,7 +366,6 @@ function profilePic(user){
 }
 
 function DeleteToken(){
-    
     let userid = sessionStorage.getItem("UserId");
     localStorage.clear();
     sessionStorage.clear();
@@ -383,7 +373,6 @@ function DeleteToken(){
 }
 
 function refresh(){
-
     init_UI();
     HEAD(checkETag, error);
 }
@@ -399,12 +388,18 @@ function Connected(){
         $(".NotConnectedB").show();
     }
     else{ // connected
-        //;
-        GetUser(parseInt(sessionStorage.getItem("UserId"),10) ,profilePic,error);
+        GetUser(parseInt(sessionStorage.getItem("UserId"),10) ,profilePic,error); // profile pic
         $(".ConnectedB").show();
         $(".NotConnectedB").hide();
     }
 
+}
+
+function about(){
+    holdCheckETag = true;
+    $("#aboutDlg").dialog('option', 'title', "Les createurs");
+    $("")
+    $("#aboutDlg").dialog('open'); 
 }
 
 function init_UI() {
@@ -413,8 +408,28 @@ function init_UI() {
     $("#newUserCmd").on("click", newUser);
     $("#connectionCmd").on("click",connection)
     $("#deconnectionCmd").on("click",deconnection)
+    $("#aboutCmd").on("click",about);
 
     Connected();
+
+    $("#aboutDlg").dialog({
+        title:"...",
+        autoOpen: false,
+        modal : true,
+        show: { effect: 'fade', speed: 400 },
+        hide: { effect: 'fade', speed: 400 },
+        width: 500, minWidth: 500, maxWidth: 500,
+        height: 300, minHeight: 300, maxHeight: 300,
+        position: { my: "top", at: "top", of: window },
+        buttons: [
+        {
+            text: "OK",
+            click: function () {
+                holdCheckETag = false;
+                $(this).dialog("close");
+            }
+        }]
+    })
 
     $("#imageDlg").dialog({
         title: "...",
@@ -527,11 +542,7 @@ function init_UI() {
             click: function () {
                 let code = codeFromForm();
                 let userId = sessionSTR.getItem("userId")
-                VERIFY_USER(code, userId,verified, wrongNumber);
-
-
-                
-                
+                VERIFY_USER(code, userId,verified, wrongNumber);         
             }
         }]
     });
