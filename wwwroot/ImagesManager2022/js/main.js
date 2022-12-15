@@ -566,6 +566,7 @@ function init_UI() {
                         }
                         //if we are modifying a user
                         else{
+                            
                             let token = sessionStorage.getItem("Access_token");
                             debugger
                             MODIFY_USER(user,token,modified,error);
