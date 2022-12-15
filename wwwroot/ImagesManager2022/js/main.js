@@ -72,11 +72,10 @@ function SaveToken(Token, ETag) {
         localStorage.setItem("UserId",Token.UserId);
         localStorage.setItem("Username",Token.Username);
     }
-    else{
-        sessionStorage.setItem("Access_token",Token.Access_token);
-        sessionStorage.setItem("UserId",Token.UserId);
-        sessionStorage.setItem("Username",Token.Username);
-    }
+    
+    sessionStorage.setItem("Access_token",Token.Access_token);
+    sessionStorage.setItem("UserId",Token.UserId);
+    sessionStorage.setItem("Username",Token.Username);
 
     refresh()
     // if () verify user with dialog
@@ -584,6 +583,7 @@ function init_UI() {
                         }
                         //if we are modifying a user
                         else{
+                            
                             let token = sessionStorage.getItem("Access_token");
                             debugger
                             MODIFY_USER(user,token,modified,error);
