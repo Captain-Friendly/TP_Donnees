@@ -89,21 +89,13 @@ function getUser(Token, ETag) {
 }
 
 
-// function insertUser(user) {
-//     $(".buttons").append(
-//         $(`
-//             <div class="avatar buttons"
-//                 style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;">
-//                 </div>`)
-//     );
-// }
+
 
 function userCreated(user){
     sessionStorage.setItem("UserId", user.Id);
     $("#VCodeDlg").dialog('option', 'title', "Vérification de courriel");
     $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');
-    insertUser(user);
 }
 
 function refreshimagesList(images, ETag) {
@@ -360,6 +352,7 @@ function connection(){
 
 function verified(){
     $("#VCodeDlg").dialog("close");
+    
 }
 
 function wrongCredential(){
