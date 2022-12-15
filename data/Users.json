@@ -17,5 +17,14 @@
     "VerifyCode": "verified",
     "AvatarGUID": "",
     "AvatarURL": ""
+  },
+  {
+    "Id": 3,
+    "Name": "moi",
+    "Email": "thomaslavoie066@outlook.com",
+    "Password": "123",
+    "AvatarGUID": "60660690-7cb4-11ed-8943-e1a494bcdfe0",
+    "Created": 1671134967,
+    "VerifyCode": "verified"
   }
 ]
