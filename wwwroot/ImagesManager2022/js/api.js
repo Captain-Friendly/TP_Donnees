@@ -8,7 +8,7 @@ const baseURL = "http://localhost:5000";
 const apiBaseURL = baseURL + "/api/images";
 const accountURL = baseURL + "/accounts";
 const loginURL = baseURL + "/token";
-const modifyURL = baseURL + "/modify"
+const modifyURL = accountURL + "/modify"
 
 
 function HEAD(successCallBack, errorCallBack) {
@@ -33,7 +33,6 @@ function HEAD(successCallBack, errorCallBack) {
     }
 */
 function REGISTER(user,successCallBack, errorCallBack){
-    debugger
     $.ajax({
         url: accountURL+"/register",
         type: 'POST',
@@ -77,7 +76,6 @@ function GetUser(id,successCallBack,errorCallBack){
 }
 
 function VERIFY_USER(code,userId, successCallBack, errorCallBack){
-    debugger
     $.ajax({
        url:accountURL + `/verify?id=${userId}&code=${code}`,
        type:'GET',
@@ -96,7 +94,6 @@ function GET_ID(id, successCallBack, errorCallBack) {
     });
 }
 function GET_ALL(successCallBack, errorCallBack, queryString = null) {
-    //debugger
     let url = apiBaseURL + (queryString ? queryString : "");
     $.ajax({
         url: url,
@@ -116,15 +113,15 @@ function POST(data, successCallBack, errorCallBack) {
     });
 }
 
-function MODIFY_USER(modified_user, token){
+function MODIFY_USER(modified_user, token, successCallBack, errorCallBack){
     $.ajax({
         url: modifyURL,
-        type:'POST',
+        type:'PUT',
         headers:{
             Authorization:token
         },
         contentType: 'application/json',
-        data: JSON.stringify(data),
+        data: JSON.stringify(modified_user),
         success: (data) => { successCallBack(data) },
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });

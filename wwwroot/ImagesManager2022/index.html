@@ -65,7 +65,12 @@
                             data-toggle="tooltip">
                             
                         </div>
+
                         <div class="buttons cmd fa fa-sign-out" id="deconnectionCmd" title="Se Deconnecter"
+                            data-toggle="tooltip">
+                        </div>
+
+                        <div class="buttons cmd fa fa-address-card" id="modifyCmd" title="Modifier usager"
                             data-toggle="tooltip">
                         </div>
                     </div>
@@ -142,8 +147,8 @@
             <div id="errorDlg">
                 <span id="errorMessage"></span>
             </div>
-            <div id="newUserDlg">
-                <form id="newUserForm">
+            <div id="UserDlg">
+                <form id="UserForm">
                     <input type="hidden" id="user_Id_input" value="0">
                     <input type="hidden" id="created_input" value="0">
                     <input type="hidden" id="AvatarGUID_input" value="">
@@ -169,6 +174,9 @@
                     <div class="note">Cliquez-Déposez une image</div>
                 </form>
             </div>
+
+
+
             <div id="VCodeDlg">
                 <form id="VCodeForm">
                     <p>Consultez votre boîte de courriel pour connaître votre code de vérificaiton et inscrivez-le ci-dessous</p>

@@ -107,6 +107,9 @@ module.exports =
         // PUT:accounts/modify body payload[{"Id": 0, "Name": "...", "Email": "...", "Password": "..."}]
         // add in headers Authorization:acces_token
         // when you change email, it need to be verified again
+
+
+
         modify(user) {
             if (this.writeAuthorization()) {
                 user.Created = utilities.nowInSeconds();
@@ -118,6 +121,7 @@ module.exports =
                 if (this.repository != null) {
                     let updateResult = this.repository.update(user);
                     if (updateResult == this.repository.updateResult.ok) {
+                        // pas besoin de erase image
                         this.HttpContext.response.ok();
                         if (user.Email != foundedUser.Email) {
                             user.VerifyCode = utilities.makeVerifyCode(6);
