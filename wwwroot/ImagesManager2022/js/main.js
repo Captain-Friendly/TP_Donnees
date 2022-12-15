@@ -398,7 +398,7 @@ function Connected(){
 function about(){
     holdCheckETag = true;
     $("#aboutDlg").dialog('option', 'title', "Les createurs");
-    $("")
+    $("#aboutMessage").text("Faite par Thomas Lavoie et Julian Angel Murilo");
     $("#aboutDlg").dialog('open'); 
 }
 
@@ -408,7 +408,8 @@ function init_UI() {
     $("#newUserCmd").on("click", newUser);
     $("#connectionCmd").on("click",connection)
     $("#deconnectionCmd").on("click",deconnection)
-    $("#aboutCmd").on("click",about);
+    $("#aboutCmd1").on("click",about);
+    $("#aboutCmd2").on("click",about);
 
     Connected();
 
