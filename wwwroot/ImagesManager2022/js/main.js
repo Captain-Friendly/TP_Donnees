@@ -366,7 +366,7 @@ function local(){
 }
 
 function profilePic(user){
-    $(".ProfilePic").append(`<div class="avatar buttons"
+    $(".ProfilePic").html(`<div class="avatar buttons"
     style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;">
     </div>`)
 }
