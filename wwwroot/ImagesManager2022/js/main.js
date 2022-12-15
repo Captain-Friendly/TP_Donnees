@@ -338,8 +338,8 @@ function imageToForm(image) {
 
 function deconnection(){
     holdCheckETag = true;
-    $("#deconnectionDlg").dialog('option', 'title', "Deconnexion");
-    $("#deconnectionDlgOkBtn").text("Connexion");
+    $("#deconnectionDlg").dialog('option', 'title', "Etes-vous sur ?");
+    $("#deconnectionDlgOkBtn").text("Deconnexion");
     $("#deconnectionDlg").dialog('open'); 
 }
 
@@ -574,7 +574,7 @@ function init_UI() {
         show: { effect: 'fade', speed: 400 },
         hide: { effect: 'fade', speed: 400 },
         width: 500, minWidth: 500, maxWidth: 500,
-        height: 500, minHeight: 500, maxHeight: 500,
+        height: 300, minHeight: 300, maxHeight: 300,
         position: { my: "top", at: "top", of: window },
         buttons: [{
             id: "deconnectionDlgOkBtn",
