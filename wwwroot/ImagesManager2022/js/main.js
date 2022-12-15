@@ -100,7 +100,7 @@ function userCreated(user){
     let string = user.Id.toString();
     sessionSTR.setItem("user", JSON.stringify(user))
     sessionSTR.setItem("userId", string);
-    $("#VCodeDlg").dialog('option', 'title', "Donner le code de Vérification");
+    $("#VCodeDlg").dialog('option', 'title', "Vérification de courriel");
     $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');
     insertUser(user);
