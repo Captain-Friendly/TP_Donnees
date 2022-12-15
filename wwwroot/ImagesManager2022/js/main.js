@@ -366,9 +366,9 @@ function local(){
 }
 
 function profilePic(user){
-    style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;"
-    $(".ProfilePic").css("background",`url('${user.AvatarGUID}') no-repeat center center`);
-    $(".ProfilePic").css("background-size",`cover`);
+    //style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover;"
+    //$(".ProfilePic").css("background",`url('${user.AvatarURL}') no-repeat center center`);
+    //$(".ProfilePic").css("background-size",`cover`);
     debugger;
 }
 
