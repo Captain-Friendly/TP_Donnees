@@ -124,7 +124,6 @@ function refreshimagesList(images, ETag) {
             }
         }
         if(image.Shared == true || myImage == true){
-            debugger
             let divHeader = ``;
 
             if(myImage){
