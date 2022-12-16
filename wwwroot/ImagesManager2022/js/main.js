@@ -477,9 +477,11 @@ function Connected(){
     }
 
     else{ // connected
+        debugger;
         GetUser(parseInt(JSON.parse(sessionStorage.getItem("User")).Id,10) ,logAndStoreUser,error); // profile pic
         $(".ConnectedB").show();
         $(".NotConnectedB").hide();
+        $(".ProfileName").text(JSON.parse(sessionStorage.getItem("User")).Name);
     }
 
 }
