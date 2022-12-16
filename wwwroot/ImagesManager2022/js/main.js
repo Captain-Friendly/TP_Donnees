@@ -85,6 +85,7 @@ function SaveToken(Token, ETag) {
 
 
 function userCreated(user){
+    sessionStorage.setItem("User",JSON.stringify(user));
     resetUserForm();
     holdCheckETag = false;
     $("#UserDlg").dialog("close");
@@ -474,6 +475,7 @@ function DeleteToken(){
 function Connected(){
     
     // let user = JSON.parse();
+    $(".SearchBar").hide();
 
     if(localStorage.getItem("User") != null){ // set le session = local
         sessionStorage.setItem("User",localStorage.getItem("User"));
