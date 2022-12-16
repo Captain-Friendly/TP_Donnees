@@ -500,7 +500,7 @@ function Connected(){
 
 function about(){
     holdCheckETag = true;
-    $("#aboutDlg").dialog('option', 'title', "Les createurs");
+    $("#aboutDlg").dialog('option', 'title', "A propos");
     $("#aboutMessage").text("Faite par Thomas Lavoie et Julian Angel Murilo");
     $("#aboutDlg").dialog('open'); 
 }

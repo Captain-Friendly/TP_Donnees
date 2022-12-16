@@ -79,6 +79,13 @@ body {
     width: 100px;
     margin: 20px;
 }
+.SearchBar{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
 .ConnectedB{
     display: flex;
