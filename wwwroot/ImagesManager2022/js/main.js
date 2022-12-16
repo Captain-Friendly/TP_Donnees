@@ -168,7 +168,6 @@ function refreshimagesList(images, ETag) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
-    //sessionStorage.removeItem("AvatarURL");
 }
 
 function error(status) {
