@@ -58,6 +58,12 @@ module.exports =
         update(image) {
 
             if (this.model.valid(image)) {
+
+                // let userRepo = new UsersRepository();
+                // userRepo.get()
+                // if(){
+
+                // }
                 image["GUID"] = ImageFilesRepository.storeImageData(image["GUID"], image["ImageData"]);
                 delete image["ImageData"];
                 return super.update(image);
