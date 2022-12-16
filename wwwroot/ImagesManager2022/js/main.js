@@ -140,7 +140,7 @@ function refreshimagesList(images, ETag) {
                                 style="background-image:url('${image.ThumbnailURL}')">
                         </div>
                     </a>
-                    <div class="avatar" style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;"> </div>
+                    <div title='${user.Name}' class="avatar" style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;"> </div>
                     <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
                     
                 </div>
@@ -164,7 +164,7 @@ function refreshimagesList(images, ETag) {
     $(".showMore").off();
     $(".editCmd").click(e => { editimage(e) });
     $(".deleteCmd").click(e => { deleteimage(e) });
-
+    $(".Avatar").tooltip();
     $('[data-toggle="tooltip"]').tooltip();
 
 }
