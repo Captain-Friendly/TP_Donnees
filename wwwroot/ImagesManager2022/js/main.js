@@ -176,7 +176,7 @@ function refreshimagesList(images, ETag) {
     $(".showMore").off();
     $(".editCmd").click(e => { editimage(e) });
     $(".deleteCmd").click(e => { deleteimage(e) });
-    $(".Avatar").tooltip();
+    //$(".Avatar").tooltip();
     $('[data-toggle="tooltip"]').tooltip();
 
 }
