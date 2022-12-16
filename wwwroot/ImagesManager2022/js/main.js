@@ -500,9 +500,18 @@ function Connected(){
 
 function about(){
     holdCheckETag = true;
-    $("#aboutDlg").dialog('option', 'title', "Les createurs");
+    $("#aboutDlg").dialog('option', 'title', "A propos");
     $("#aboutMessage").text("Faite par Thomas Lavoie et Julian Angel Murilo");
     $("#aboutDlg").dialog('open'); 
+}
+
+function showSearch(){
+    if($(".SearchBar").is(":visible")){
+        $(".SearchBar").hide();
+    }
+    else{
+        $(".SearchBar").show();
+    }
 }
 
 function init_UI() {
@@ -513,6 +522,7 @@ function init_UI() {
     $("#deconnectionCmd").on("click",deconnection)
     $("#aboutCmd").on("click",about);
     $("#modifyCmd").on("click", modifyUser)
+    $("#SearchBarCmd").on("click",showSearch)
 
     
 
