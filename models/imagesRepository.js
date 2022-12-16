@@ -42,14 +42,14 @@ module.exports =
 
             if (this.model.valid(image)) {
                 let user = JSON.parse(image.User);
+                
+                image["GUID"] = ImageFilesRepository.storeImageData("", image["ImageData"]);
+                delete image["ImageData"];
+                return this.bindImageURL(super.add(image));
+                
                 let userRepo = new UsersRepository();
-
-
                 // verifie qu'une image a un usager
                 if(userRepo.get(user.Id) != null){
-                    image["GUID"] = ImageFilesRepository.storeImageData("", image["ImageData"]);
-                    delete image["ImageData"];
-                    return this.bindImageURL(super.add(image));
                 }
                 
             }
