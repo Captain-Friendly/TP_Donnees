@@ -22,16 +22,20 @@ module.exports =
             }
         }
         // POST: /token body payload[{"Email": "...", "Password": "..."}]
-        login(loginInfo) {
-            let user = this.repository.findByField("Email", loginInfo.Email);
-            if (user != null) {
-                if (user.Password == loginInfo.Password) {
-                    if (user.VerifyCode == 'verified') {
+        /*
+        if (user.VerifyCode == 'verified') {
                         let newToken = TokenManager.create(user);
                         this.HttpContext.response.JSON(newToken);
                     } else {
                         this.HttpContext.response.unverifiedUser();
                     }
+                    */
+        login(loginInfo) {
+            let user = this.repository.findByField("Email", loginInfo.Email);
+            if (user != null) {
+                if (user.Password == loginInfo.Password) {
+                    let newToken = TokenManager.create(user);
+                    this.HttpContext.response.JSON(newToken);
                 } else {
                     this.HttpContext.response.wrongPassword();
                 }

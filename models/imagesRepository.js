@@ -56,7 +56,6 @@ module.exports =
             return null;
         }
         update(image) {
-
             if (this.model.valid(image)) {
 
                 // let userRepo = new UsersRepository();

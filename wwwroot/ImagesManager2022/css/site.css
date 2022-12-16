@@ -101,6 +101,14 @@ body {
     flex-wrap: nowrap;
     justify-content: space-between;
 }
+
+.unverified{
+    padding-right: 0%;
+    margin-right: 0%;
+    display: block;
+}
+
+
 .buttons {
     padding: 10%;
 }

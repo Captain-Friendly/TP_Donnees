@@ -40,14 +40,29 @@ class UsersRepository extends require('./repository') {
             let foundUser = super.get(user.Id);
             if (foundUser) {
                 user["Created"] = foundUser["Created"];
+
+                // let tryingOut = ImageFilesRepository.getAll();
+
+                // let imageRepo = new ImagesRepository();
+                // let images =  imageRepo.getAll();
+
+                // for(let i = 0; i < images.length; i++){
+                //     let image = images[i]
+                //     let image_user = JSON.parse(image.User);
+
+                //     if(user.Id == image_user.Id){
+                //         image.User = JSON.stringify(user);
+                //         imageRepo.update(image);
+                //     }
+                // }
+
+
+                // replace the avatar image, same GUID
+
+                ImageFilesRepository.replaceImageData(user["AvatarGUID"],user["ImageData"]);
+                delete user["ImageData"];
+                return super.update(user);
                 
-                if(ImageFilesRepository.replaceImageData(user["AvatarGUID"],user["ImageData"] )){
-
-
-                    delete user["ImageData"];
-                    return super.update(user);
-                }
-                return false
                 // user["AvatarGUID"] = ImageFilesRepository.storeImageData(user["AvatarGUID"], user["ImageData"]);
                 
             }
@@ -57,17 +72,17 @@ class UsersRepository extends require('./repository') {
     remove(id){
         let foundUser = super.get(id);
         if (foundUser) {
-            let imageRepo = new ImagesRepository();
-            let images =  imageRepo.getAll();
+            // let imageRepo = new ImagesRepository();
+            // let images =  imageRepo.getAll();
 
-            for(let i =0; i < images.length; i++){
-                let image = images[i].GUID;
-                let imageUser = JSON.parse(images[i].User);
-                if(imageUser.Id == foundUser.Id){
+            // for(let i =0; i < images.length; i++){
+            //     let image = images[i].GUID;
+            //     let imageUser = JSON.parse(images[i].User);
+            //     if(imageUser.Id == foundUser.Id){
 
-                    ImageFilesRepository.removeImageFile(images[i]["GUID"]);
-                }
-            }
+            //         ImageFilesRepository.removeImageFile(images[i]["GUID"]);
+            //     }
+            // }
 
 
             ImageFilesRepository.removeImageFile(foundUser["AvatarGUID"]);

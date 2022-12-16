@@ -66,6 +66,7 @@ function SaveToken(Token, ETag) {
         localStorage.setItem("Access_token",Token.Access_token);
         GetUser(Token.UserId,(user)=>{
             localStorage.setItem("User", JSON.stringify(user));
+            
             Connected();
             getImagesList();
         }, error);
@@ -99,6 +100,9 @@ function userCreated(user){
 function verified(){
     $("#VCodeDlg").dialog("close");
     $("#Vcode_error_code").html("");
+    $(".unverified").hide();
+    GetUser(JSON.parse(sessionStorage.getItem("User")).Id,logAndStoreUser,error);
+    // Connected();
     alert("Usager verifié");
 }
 
@@ -120,7 +124,7 @@ function refreshimagesList(images, ETag) {
 
         if(sessionStorage.getItem("User") != null){
             let sessionUserId = JSON.parse(sessionStorage.getItem("User")).Id;
-            if(user.Id == sessionUserId){
+            if(user.Id == sessionUserId && user.VerifyCode == "verified"){
                 myImage = true;
             }
         }
@@ -237,18 +241,30 @@ function newUser() {
 }
 
 function logAndStoreUser(user){
-
+    
+    
+    // $("#VCodeDlg").dialog('close');
+    
     if(user.VerifyCode != "verified"){
+        $(".unverified").show();
+
+
+        $("#UserDlg").dialog('close');
+        $("#VCodeDlg").dialog('close');
         $("#VCodeDlg").dialog('option', 'title', "Vérification de courriel");
         $("#VcodeDlgOkBtn").text("Confirmer");
         $("#VCodeDlg").dialog('open');
-    }   
+    }else{
+        $(".unverified").hide();
+        
+    }
+
+    sessionStorage.setItem("User", JSON.stringify(user));
 
     // sessionStorage.setItem("User_Name", user.Name);
     // sessionStorage.setItem("User_Email", user.Email);
     // sessionStorage.setItem("User_AvatarURL", user.AvatarURL);
     // sessionStorage.setItem("User_AvatarGUID", user.AvatarGUID);
-    sessionStorage.setItem("User", JSON.stringify(user));
     
     
     $(".ProfilePic").html(`<div class="avatar buttons" style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;"> </div>`);
@@ -475,6 +491,8 @@ function Connected(){
     
     // let user = JSON.parse();
     $(".SearchBar").hide();
+    
+    
 
     if(localStorage.getItem("User") != null){ // set le session = local
         sessionStorage.setItem("User",localStorage.getItem("User"));
@@ -493,9 +511,18 @@ function Connected(){
 
     else{ // connected
         GetUser(parseInt(JSON.parse(sessionStorage.getItem("User")).Id,10) ,logAndStoreUser,error); // profile pic
+
+
         $(".ConnectedB").show();
         $(".NotConnectedB").hide();
-        $(".ProfileName").text(JSON.parse(sessionStorage.getItem("User")).Name);
+        let user = JSON.parse(sessionStorage.getItem("User"));
+        $(".ProfileName").text(user.Name);
+
+        // let verifyCode = user.VerifyCode;
+        // if(verifyCode != "verified"){
+        //     
+        //     $(".unverified").show();
+        // }
     }
 
 }
@@ -520,6 +547,11 @@ function search(){
 
 }
 
+function veridyUSer(){
+    $("#VCodeDlg").dialog('option', 'title', "Vérification de courriel");
+    $("#VcodeDlgOkBtn").text("Confirmer");
+    $("#VCodeDlg").dialog('open');
+}
 
 
 function init_UI() {
@@ -532,6 +564,10 @@ function init_UI() {
     $("#modifyCmd").on("click", modifyUser)
     $("#SearchBarCmd").on("click",showSearch)
     $("#SearchCmd").on("click",search)
+
+    $("#unverifiedCmd").on("click", veridyUSer)
+
+    $(".unverified").hide();
 
     
 
@@ -628,7 +664,6 @@ function init_UI() {
                         else{
                             
                             let token = sessionStorage.getItem("Access_token");
-                            debugger
                             MODIFY_USER_API(user,token,modified,error);
                         } 
 
