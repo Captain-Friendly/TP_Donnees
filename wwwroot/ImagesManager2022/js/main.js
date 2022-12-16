@@ -41,6 +41,7 @@ function checkETag(ETag) {
 
 
 function getImagesList(refresh = true) {
+    
     appendMode = !refresh;
     function prepareQueryString() {
         let queryString = "";
@@ -59,6 +60,7 @@ function getImagesList(refresh = true) {
 
 
 function SaveToken(Token, ETag) {
+    
     $("#connectionDlg").dialog("close");
     /*
     "Id": 1,
@@ -71,17 +73,20 @@ function SaveToken(Token, ETag) {
 
     if(sessionStorage.getItem("local")){
         localStorage.setItem("Access_token",Token.Access_token);
-        GetUser(Token.UserId,(user)=>{localStorage.setItem("User", JSON.stringify(user));}, error);
+        GetUser(Token.UserId,(user)=>{
+            localStorage.setItem("User", JSON.stringify(user));
+            Connected();
+            getImagesList();
+        }, error);
     }
 
     
     sessionStorage.setItem("Access_token",Token.Access_token);
-
-    refresh()
+    
+    // ;
+    
+    
     // if () verify user with dialog
-
-    // LOGIN USER
-    // TODO: in login, use the token, then use index
 }
 
 
@@ -117,24 +122,33 @@ function modified(){
 {/*  */}
 function refreshimagesList(images, ETag) {
     function insertIntoImageList(image) {
+        
         let user = JSON.parse(image.User);
-        debugger
+
+        let divOfOwner = "";
+
+        if(sessionStorage.getItem("User") != null){
+            let sessionUserId = JSON.parse(sessionStorage.getItem("User")).Id;
+            if(user.Id == sessionUserId){
+                divOfOwner = `<div class='imageHeader'>
+                                <div class="imageTitle">${image.Title}</div>
+                                <div    class="cmd editCmd  fa fa-pencil-square" 
+                                        imageid="${image.Id}" 
+                                        title="Editer ${image.Title}" 
+                                        data-toggle="tooltip">
+                                </div>
+                                <div    class="cmd deleteCmd fa fa-window-close" 
+                                        imageid="${image.Id}" 
+                                        title="Effacer ${image.Title}" 
+                                        data-toggle="tooltip">
+                                </div>
+                            </div>  `;
+            }
+        }
         $("#imagesList").append(
             $(` 
                 <div class='imageLayout'>
-                    <div class='imageHeader'>
-                        <div class="imageTitle">${image.Title}</div>
-                        <div    class="cmd editCmd  fa fa-pencil-square" 
-                                imageid="${image.Id}" 
-                                title="Editer ${image.Title}" 
-                                data-toggle="tooltip">
-                        </div>
-                        <div    class="cmd deleteCmd fa fa-window-close" 
-                                imageid="${image.Id}" 
-                                title="Effacer ${image.Title}" 
-                                data-toggle="tooltip">
-                        </div>
-                    </div>                   
+                    ${divOfOwner}
                     <a href="${image.OriginalURL}" target="_blank">
                         <div    class='image' 
                                 style="background-image:url('${image.ThumbnailURL}')">
@@ -249,7 +263,7 @@ function modifyUser(){
     AddMode = false;
 
     let userFromStorage = JSON.parse(sessionStorage.getItem("User"));
-    debugger
+    
 
     // let user = {
     //     Id: sessionStorage.getItem("UserId"),
@@ -449,16 +463,18 @@ function DeleteToken(){
     let userid = JSON.parse(sessionStorage.getItem("User")).Id;
     localStorage.clear();
     sessionStorage.clear();
-    LOGOUT(userid,refresh,error);
+    
+    Connected();
+    LOGOUT(userid,()=>{getImagesList();},error);
 }
 
-function refresh(){
-    init_UI();
-    HEAD(checkETag, error);
-}
+// function {
+//     init_UI();
+//     HEAD(checkETag, error);
+// }
 
 function Connected(){
-
+    
     // let user = JSON.parse();
 
     if(localStorage.getItem("User") != null){ // set le session = local
@@ -661,8 +677,8 @@ function init_UI() {
                 local();
                 let login = connectionFromForm();
                 if(login){
-                LOGIN(login,SaveToken,wrongCredential);
-                //$(this).dialog("close");
+                    LOGIN(login,SaveToken,wrongCredential);
+                    //$(this).dialog("close");
                 }
 
             }
@@ -689,7 +705,7 @@ function init_UI() {
             id: "deconnectionDlgOkBtn",
             text: "title will be changed",
             click: function () {
-                DeleteToken()
+                DeleteToken();
                 $(this).dialog("close");
             }
         },
