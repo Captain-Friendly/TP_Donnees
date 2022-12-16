@@ -104,8 +104,7 @@ function verified(){
     alert("Usager verifié");
 }
 
-function modified(user){
-    debugger
+function modified(){
     AddMode = true;
     holdCheckETag = false;
     $("#UserDlg").dialog("close");
@@ -163,7 +162,6 @@ function refreshimagesList(images, ETag) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
-    //sessionStorage.removeItem("AvatarURL");
 }
 
 function error(status) {
