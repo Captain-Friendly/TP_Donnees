@@ -89,6 +89,7 @@ function userCreated(user){
     holdCheckETag = false;
     $("#UserDlg").dialog("close");
 
+    $("#Vcode_error_code").html("");
     $("#VCodeDlg").dialog('option', 'title', "Vérification de courriel");
     $("#VcodeDlgOkBtn").text("Confirmer");
     $("#VCodeDlg").dialog('open');

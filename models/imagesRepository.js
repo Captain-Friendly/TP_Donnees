@@ -64,6 +64,13 @@ module.exports =
             }
             return false;
         }
+
+        removeByUserId(UserId){
+            let ImagesOfUser = [];
+            let allImages = this.getAll();
+            
+        }
+
         remove(id) {
             let foundImage = super.get(id);
             if (foundImage) {
