@@ -30,10 +30,10 @@
   {
     "Id": 5,
     "Name": "deuxieme",
-    "Email": "juliandelapaz2001@gmail.com",
+    "Email": "juliandelapaz2002@gmail.com",
     "Password": "123",
     "AvatarGUID": "9e874130-7d60-11ed-8172-015fc2603770",
     "Created": 1671208945,
-    "VerifyCode": "verified"
+    "VerifyCode": 173126
   }
 ]
