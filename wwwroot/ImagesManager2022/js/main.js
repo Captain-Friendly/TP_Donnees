@@ -505,6 +505,15 @@ function about(){
     $("#aboutDlg").dialog('open'); 
 }
 
+function showSearch(){
+    if($(".SearchBar").is(":visible")){
+        $(".SearchBar").hide();
+    }
+    else{
+        $(".SearchBar").show();
+    }
+}
+
 function init_UI() {
     // $("#newImageCmd").click(newImage);
     $("#newImageCmd").on("click", newImage);
@@ -513,6 +522,7 @@ function init_UI() {
     $("#deconnectionCmd").on("click",deconnection)
     $("#aboutCmd").on("click",about);
     $("#modifyCmd").on("click", modifyUser)
+    $("#SearchBarCmd").on("click",showSearch)
 
     
 
