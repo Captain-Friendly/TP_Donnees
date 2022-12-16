@@ -104,8 +104,7 @@ function verified(){
     alert("Usager verifié");
 }
 
-function modified(user){
-    debugger
+function modified(){
     AddMode = true;
     holdCheckETag = false;
     $("#UserDlg").dialog("close");
@@ -114,9 +113,14 @@ function modified(user){
     alert("Usager Modifié");
 }
 
+function imageUser(user){
+    debugger
+}
 
+{/* <div class="avatar" style="background: url('${ImageUser.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;"> </div> */}
 function refreshimagesList(images, ETag) {
     function insertIntoImageList(image) {
+        GetUser(image.UserId,imageUser,error);
         $("#imagesList").append(
             $(` 
                 <div class='imageLayout'>
@@ -139,6 +143,7 @@ function refreshimagesList(images, ETag) {
                         </div>
                     </a>
                     <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
+                    
                 </div>
             `)
         );
@@ -373,7 +378,6 @@ function imageFromForm() {
             Date: parseInt($("#date_input").val()),
             UserId : sessionStorage.getItem("UserId") ,
             Shared : $("#partage").prop("checked")
-
         };
         return image;
     } else {

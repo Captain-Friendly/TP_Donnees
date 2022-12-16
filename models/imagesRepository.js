@@ -1,6 +1,6 @@
 
  // Attention de ne pas avoir des références circulaire
-const UsersRepository = require('./usersRepository'); // pas ici sinon référence ciculaire
+// const UsersRepository = require('./usersRepository'); // pas ici sinon référence ciculaire
 const ImageFilesRepository = require('./imageFilesRepository.js');
 const ImageModel = require('./image.js');
 const utilities = require("../utilities");
@@ -24,9 +24,11 @@ module.exports =
                 if (image["GUID"] != "") {
                     bindedImage["OriginalURL"] = HttpContext.host + ImageFilesRepository.getImageFileURL(image["GUID"]);
                     bindedImage["ThumbnailURL"] = HttpContext.host + ImageFilesRepository.getThumbnailFileURL(image["GUID"]);
+                    bindedImage["UserId"] = image.UserId;
                 } else {
                     bindedImage["OriginalURL"] = "";
                     bindedImage["ThumbnailURL"] = "";
+                    bindedImage["UserId"] = "";
                 }
                 return bindedImage;
             }
