@@ -1,9 +1,10 @@
 
  // Attention de ne pas avoir des références circulaire
-// const UsersRepository = require('./usersRepository'); // pas ici sinon référence ciculaire
+; // pas ici sinon référence ciculaire
 const ImageFilesRepository = require('./imageFilesRepository.js');
 const ImageModel = require('./image.js');
 const utilities = require("../utilities");
+const UsersRepository = require('./usersRepository.js');
 const HttpContext = require('../httpContext').get();
 
 module.exports =
@@ -38,14 +39,24 @@ module.exports =
             return null;
         }
         add(image) {
+
             if (this.model.valid(image)) {
-                image["GUID"] = ImageFilesRepository.storeImageData("", image["ImageData"]);
-                delete image["ImageData"];
-                return this.bindImageURL(super.add(image));
+                let user = JSON.parse(image.User);
+                let userRepo = new UsersRepository();
+
+
+                // verifie qu'une image a un usager
+                if(userRepo.get(user.Id) != null){
+                    image["GUID"] = ImageFilesRepository.storeImageData("", image["ImageData"]);
+                    delete image["ImageData"];
+                    return this.bindImageURL(super.add(image));
+                }
+                
             }
             return null;
         }
         update(image) {
+
             if (this.model.valid(image)) {
                 image["GUID"] = ImageFilesRepository.storeImageData(image["GUID"], image["ImageData"]);
                 delete image["ImageData"];
