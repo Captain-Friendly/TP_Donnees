@@ -1,8 +1,5 @@
-// const baseURL = "http://localhost:5000";
-const baseURL = "https://tp201970761.glitch.me";
-// TODO: ajouter le token dans le headers:{
-        //     authorization: `Bearer ${token}`
-        // },
+const baseURL = "http://localhost:5000";
+// const baseURL = "https://tp201970761.glitch.me";
 
 // const apiBaseURL = "/api/images";
 const apiBaseURL = baseURL + "/api/images";
