@@ -14,7 +14,6 @@ let createMode = true;
 let AddMode = true;
 
 
-
 let searchCategory = "";
 let searchTitle = "";
 let hideSearchBar = true;
