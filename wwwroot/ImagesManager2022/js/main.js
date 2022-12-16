@@ -62,14 +62,6 @@ function getImagesList(refresh = true) {
 function SaveToken(Token, ETag) {
     
     $("#connectionDlg").dialog("close");
-    /*
-    "Id": 1,
-    "Access_token": "395393fc51f31256e24e848675cf6ba530d93a12380ab67e71bb8b761c664477",
-    "UserId": 3,
-    "Username": "Moi",
-    "Expire_Time": 1671130497
-
-    */
 
     if(sessionStorage.getItem("local")){
         localStorage.setItem("Access_token",Token.Access_token);
@@ -122,15 +114,20 @@ function modified(){
 {/*  */}
 function refreshimagesList(images, ETag) {
     function insertIntoImageList(image) {
-        
         let user = JSON.parse(image.User);
-
-        let divOfOwner = "";
+        let myImage = false;
 
         if(sessionStorage.getItem("User") != null){
             let sessionUserId = JSON.parse(sessionStorage.getItem("User")).Id;
             if(user.Id == sessionUserId){
-                divOfOwner = `<div class='imageHeader'>
+                myImage = true;
+            }
+        }
+        if(image.Shared == true || myImage == true){
+            let divHeader = ``;
+
+            if(myImage){
+                divHeader = `<div class='imageHeader'>
                                 <div class="imageTitle">${image.Title}</div>
                                 <div    class="cmd editCmd  fa fa-pencil-square" 
                                         imageid="${image.Id}" 
@@ -142,24 +139,24 @@ function refreshimagesList(images, ETag) {
                                         title="Effacer ${image.Title}" 
                                         data-toggle="tooltip">
                                 </div>
-                            </div>  `;
+                            </div>  `
             }
+            $("#imagesList").append(
+                $(` 
+                    <div class='imageLayout'>
+                        ${divHeader}
+                        <a href="${image.OriginalURL}" target="_blank">
+                            <div    class='image' 
+                                    style="background-image:url('${image.ThumbnailURL}')">
+                            </div>
+                        </a>
+                        <div title='${user.Name}' class="avatar" style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;"> </div>
+                        <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
+                        
+                    </div>
+                `)
+            );   
         }
-        $("#imagesList").append(
-            $(` 
-                <div class='imageLayout'>
-                    ${divOfOwner}
-                    <a href="${image.OriginalURL}" target="_blank">
-                        <div    class='image' 
-                                style="background-image:url('${image.ThumbnailURL}')">
-                        </div>
-                    </a>
-                    <div title='${user.Name}' data-toggle="tooltip" class="avatar" style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;"> </div>
-                    <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
-                    
-                </div>
-            `)
-        );
     }
     currentETag = ETag;
     // previousScrollPosition = $(".scrollContainer").scrollTop();
@@ -493,7 +490,6 @@ function Connected(){
     }
 
     else{ // connected
-        debugger;
         GetUser(parseInt(JSON.parse(sessionStorage.getItem("User")).Id,10) ,logAndStoreUser,error); // profile pic
         $(".ConnectedB").show();
         $(".NotConnectedB").hide();
