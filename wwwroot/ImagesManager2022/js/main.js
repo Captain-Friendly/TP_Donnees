@@ -106,7 +106,7 @@ function modified(){
     holdCheckETag = false;
     $("#UserDlg").dialog("close");
     $("#error_code").html("");
-    GetUser(JSON.parse(sessionStorage.getItem("UserId")).Id,logAndStoreUser,error)
+    GetUser(JSON.parse(sessionStorage.getItem("User")).Id,logAndStoreUser,error)
     alert("Usager Modifié");
 }
 
@@ -271,7 +271,7 @@ function modifyUser(){
     // }
 
 
-    userToForm(user);
+    userToForm(userFromStorage);
     $("#UserDlg").dialog('option', 'title', "Modification d'utilisateur");
     $("#UserDlgOkBtn").text("Modifier");
     $("#UserDlg").dialog('open');
@@ -619,6 +619,7 @@ function init_UI() {
                         else{
                             
                             let token = sessionStorage.getItem("Access_token");
+                            debugger
                             MODIFY_USER_API(user,token,modified,error);
                         } 
 
