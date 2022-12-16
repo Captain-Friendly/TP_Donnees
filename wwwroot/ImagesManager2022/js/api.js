@@ -73,6 +73,14 @@ function GetUser(id,successCallBack,errorCallBack){
     });
 }
 
+function REMOVE_USER(id,errorCallBack){
+    $.ajax({
+        url: accountURL + `/remove/${id}`,
+        type: 'GET',
+        error: function (jqXHR) { errorCallBack(jqXHR.status) }
+    });
+}
+
 function VERIFY_USER(code,userId, successCallBack, errorCallBack){
     $.ajax({
        url:accountURL + `/verify?id=${userId}&code=${code}`,
