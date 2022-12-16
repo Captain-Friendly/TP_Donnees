@@ -507,12 +507,13 @@ function Connected(){
     if(sessionStorage.getItem("User") == null){ // not connected
         $(".ConnectedB").hide();
         $(".NotConnectedB").show();
+        $("#DesinscrireOkBtn").hide();
     }
 
     else{ // connected
         GetUser(parseInt(JSON.parse(sessionStorage.getItem("User")).Id,10) ,logAndStoreUser,error); // profile pic
 
-
+        $("#DesinscrireOkBtn").show();
         $(".ConnectedB").show();
         $(".NotConnectedB").hide();
         let user = JSON.parse(sessionStorage.getItem("User"));
@@ -553,6 +554,11 @@ function veridyUSer(){
     $("#VCodeDlg").dialog('open');
 }
 
+function infoImage(){
+    $("#InfoDlg").dialog('option', 'title', "infoImage");
+    $("#InfoDlgOkBtn").text("Confirmer");
+    $("#InfoDlg").dialog('open');
+}
 
 function init_UI() {
     // $("#newImageCmd").click(newImage);
@@ -564,6 +570,7 @@ function init_UI() {
     $("#modifyCmd").on("click", modifyUser)
     $("#SearchBarCmd").on("click",showSearch)
     $("#SearchCmd").on("click",search)
+    $("#imageLayout").on("click",infoImage)
 
     $("#unverifiedCmd").on("click", veridyUSer)
 
@@ -675,6 +682,7 @@ function init_UI() {
             }
         },
         {
+            id: "DesinscrireOkBtn",
             text: "Desinscrire",
             click: function () {
                 let userId = JSON.parse(sessionStorage.getItem("User")).Id;

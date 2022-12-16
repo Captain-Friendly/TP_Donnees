@@ -1,5 +1,5 @@
-const baseURL = "http://localhost:5000";
-// const baseURL = "https://tp201970761.glitch.me";
+//const baseURL = "http://localhost:5000";
+const baseURL = "https://tp201970761.glitch.me";
 
 // const apiBaseURL = "/api/images";
 const apiBaseURL = baseURL + "/api/images";
