@@ -99,4 +99,44 @@ module.exports =
             } else
                 return previousGUID;
         }
+
+        static replaceImageData(GUID, imageDataBase64){
+            if (imageDataBase64) {
+
+                // Remove MIME specifier
+                imageDataBase64 = imageDataBase64.split("base64,").pop();
+
+                //https://javascript.plainenglish.io/resize-an-image-using-nodejs-f5e57ac10419
+                const sharp = require('sharp');
+                const thumbnailSize = 256;
+
+                // Store new image file in images folder
+                let imageDataBinary = new Buffer.from(imageDataBase64, 'base64');
+                fs.writeFileSync(this.getServerImageFileURL(GUID), imageDataBinary);
+
+                // Resize & store new image file in thumbnails folder
+                // compute thumbnail resizes dimension keeping proportion of original size
+                var sizeOf = require('image-size');
+                var dimensions = sizeOf(this.getServerImageFileURL(GUID));
+                let newHeight = 0;
+                let newWidth = 0;
+                if (dimensions.height > dimensions.width) {
+                    newWidth = Math.round(dimensions.width * thumbnailSize / dimensions.height);
+                    newHeight = thumbnailSize;
+                } else {
+                    newHeight = Math.round(dimensions.height * thumbnailSize / dimensions.width);
+                    newWidth = thumbnailSize;
+                }
+                sharp(this.getServerImageFileURL(GUID))
+                    .resize(newWidth, newHeight)
+                    .toFile(this.getServerThumbnailFileURL(GUID))
+                    .then(() => { console.log("file resized") })
+                    .catch(err => {
+                        console.log(err)
+                    })
+                //this.writeDummyFile();
+                return true;
+            } else
+                return false;
+        }
     }

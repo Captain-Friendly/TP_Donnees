@@ -39,7 +39,6 @@ function checkETag(ETag) {
 
 
 
-
 function getImagesList(refresh = true) {
     
     appendMode = !refresh;
@@ -520,6 +519,8 @@ function showSearch(){
 function search(){
 
 }
+
+
 
 function init_UI() {
     // $("#newImageCmd").click(newImage);

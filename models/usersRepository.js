@@ -40,9 +40,16 @@ class UsersRepository extends require('./repository') {
             let foundUser = super.get(user.Id);
             if (foundUser) {
                 user["Created"] = foundUser["Created"];
-                user["AvatarGUID"] = ImageFilesRepository.storeImageData(user["AvatarGUID"], user["ImageData"]);
-                delete user["ImageData"];
-                return super.update(user);
+                
+                if(ImageFilesRepository.replaceImageData(user["AvatarGUID"],user["ImageData"] )){
+
+
+                    delete user["ImageData"];
+                    return super.update(user);
+                }
+                return false
+                // user["AvatarGUID"] = ImageFilesRepository.storeImageData(user["AvatarGUID"], user["ImageData"]);
+                
             }
         }
         return false;
