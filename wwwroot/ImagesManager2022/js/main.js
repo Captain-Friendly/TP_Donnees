@@ -514,6 +514,10 @@ function showSearch(){
     }
 }
 
+function search(){
+
+}
+
 function init_UI() {
     // $("#newImageCmd").click(newImage);
     $("#newImageCmd").on("click", newImage);
@@ -523,6 +527,7 @@ function init_UI() {
     $("#aboutCmd").on("click",about);
     $("#modifyCmd").on("click", modifyUser)
     $("#SearchBarCmd").on("click",showSearch)
+    $("#SearchCmd").on("click",search)
 
     
 
@@ -623,19 +628,21 @@ function init_UI() {
                             MODIFY_USER_API(user,token,modified,error);
                         } 
 
-                    }else
-                        $("#error_code").html("Mots de passes differents, Essayer à nouveux");
-
-                    
-                    
+                    }
+                    else{
+                        $("#error_code").html("Mots de passes differents, Essayer à nouveux");  
+                    }  
                 }
-                
-
-                    
-                
-                
             }
         },
+        {
+            text: "Desinscrire",
+            click: function () {
+                holdCheckETag = false;
+                $(this).dialog("close");
+            }
+        }
+        ,
         {
             text: "Annuler",
             click: function () {
