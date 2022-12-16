@@ -14,7 +14,6 @@ let createMode = true;
 let AddMode = true;
 
 
-
 let searchCategory = "";
 let searchTitle = "";
 let hideSearchBar = true;
@@ -114,7 +113,8 @@ function modified(){
 }
 
 function imageUser(user){
-    debugger
+    
+    debugger;
 }
 
 {/* <div class="avatar" style="background: url('${ImageUser.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;"> </div> */}
