@@ -56,6 +56,9 @@ function getImagesList(refresh = true) {
     GET_ALL(refreshimagesList, error, prepareQueryString());
 }
 
+
+
+
 function SaveToken(Token, ETag) {
     $("#connectionDlg").dialog("close");
     /*
@@ -69,13 +72,11 @@ function SaveToken(Token, ETag) {
 
     if(sessionStorage.getItem("local")){
         localStorage.setItem("Access_token",Token.Access_token);
-        localStorage.setItem("UserId",Token.UserId);
-        localStorage.setItem("Username",Token.Username);
+        GetUser(Token.UserId,(user)=>{localStorage.setItem("User", JSON.stringify(user));}, error);
     }
+
     
     sessionStorage.setItem("Access_token",Token.Access_token);
-    sessionStorage.setItem("UserId",Token.UserId);
-    sessionStorage.setItem("Username",Token.Username);
 
     refresh()
     // if () verify user with dialog
@@ -109,18 +110,16 @@ function modified(){
     holdCheckETag = false;
     $("#UserDlg").dialog("close");
     $("#error_code").html("");
-    GetUser(sessionStorage.getItem("UserId"),logAndStoreUser,error)
+    GetUser(JSON.parse(sessionStorage.getItem("UserId")).Id,logAndStoreUser,error)
     alert("Usager Modifié");
 }
 
-function imageUser(user){
-    debugger
-}
 
-{/* <div class="avatar" style="background: url('${ImageUser.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;"> </div> */}
+{/*  */}
 function refreshimagesList(images, ETag) {
     function insertIntoImageList(image) {
-        GetUser(image.UserId,imageUser,error);
+        let user = JSON.parse(image.User);
+        debugger
         $("#imagesList").append(
             $(` 
                 <div class='imageLayout'>
@@ -142,6 +141,7 @@ function refreshimagesList(images, ETag) {
                                 style="background-image:url('${image.ThumbnailURL}')">
                         </div>
                     </a>
+                    <div class="avatar" style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;"> </div>
                     <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
                     
                 </div>
@@ -233,10 +233,13 @@ function logAndStoreUser(user){
         $("#VCodeDlg").dialog('open');
     }   
 
-    sessionStorage.setItem("User_Name", user.Name);
-    sessionStorage.setItem("User_Email", user.Email);
-    sessionStorage.setItem("User_AvatarURL", user.AvatarURL);
-    sessionStorage.setItem("User_AvatarGUID", user.AvatarGUID);
+    // sessionStorage.setItem("User_Name", user.Name);
+    // sessionStorage.setItem("User_Email", user.Email);
+    // sessionStorage.setItem("User_AvatarURL", user.AvatarURL);
+    // sessionStorage.setItem("User_AvatarGUID", user.AvatarGUID);
+    sessionStorage.setItem("User", JSON.stringify(user));
+    
+    
     $(".ProfilePic").html(`<div class="avatar buttons" style="background: url('${user.AvatarURL}') no-repeat center center; background-size: cover; width: 50px;"> </div>`);
 
 }
@@ -246,13 +249,16 @@ function modifyUser(){
     holdCheckETag = true;
     AddMode = false;
 
-    let user = {
-        Id: sessionStorage.getItem("UserId"),
-        Name:sessionStorage.getItem("User_Name"),
-        Email: sessionStorage.getItem("User_Email"),
-        AvatarURL : sessionStorage.getItem("User_AvatarURL"),
-        AvatarGUID: sessionStorage.getItem("User_AvatarGUID")
-    }
+    let userFromStorage = JSON.parse(sessionStorage.getItem("User"));
+    debugger
+
+    // let user = {
+    //     Id: sessionStorage.getItem("UserId"),
+    //     Name:sessionStorage.getItem("User_Name"),
+    //     Email: sessionStorage.getItem("User_Email"),
+    //     AvatarURL : sessionStorage.getItem("User_AvatarURL"),
+    //     AvatarGUID: sessionStorage.getItem("User_AvatarGUID")
+    // }
 
 
     userToForm(user);
@@ -375,7 +381,7 @@ function imageFromForm() {
             Description: $("#description_input").val(),
             ImageData: ImageUploader.getImageData('image'),
             Date: parseInt($("#date_input").val()),
-            UserId : sessionStorage.getItem("UserId") ,
+            User : sessionStorage.getItem("User") ,
             Shared : $("#partage").prop("checked")
         };
         return image;
@@ -439,7 +445,9 @@ function local(){
 
 
 function DeleteToken(){
-    let userid = sessionStorage.getItem("UserId");
+
+
+    let userid = JSON.parse(sessionStorage.getItem("User")).Id;
     localStorage.clear();
     sessionStorage.clear();
     LOGOUT(userid,refresh,error);
@@ -452,23 +460,25 @@ function refresh(){
 
 function Connected(){
 
-    if(localStorage.getItem("UserId") != null){ // set le session = local
-        sessionStorage.setItem("UserId",localStorage.getItem("UserId"));
+    // let user = JSON.parse();
+
+    if(localStorage.getItem("User") != null){ // set le session = local
+        sessionStorage.setItem("User",localStorage.getItem("User"));
     }
     if(localStorage.getItem("Access_token") != null){ // set le session = local
         sessionStorage.setItem("Access_token",localStorage.getItem("Access_token"));
     }
-    if(localStorage.getItem("Username") != null){ // set le session = local
-        sessionStorage.setItem("Username",localStorage.getItem("Username"));
-    }
+    // if(localStorage.getItem("Username") != null){ // set le session = local
+    //     sessionStorage.setItem("Username",localStorage.getItem("Username"));
+    // }
 
-    if(sessionStorage.getItem("UserId") == null){ // not connected
+    if(sessionStorage.getItem("User") == null){ // not connected
         $(".ConnectedB").hide();
         $(".NotConnectedB").show();
     }
 
     else{ // connected
-        GetUser(parseInt(sessionStorage.getItem("UserId"),10) ,logAndStoreUser,error); // profile pic
+        GetUser(parseInt(JSON.parse(sessionStorage.getItem("User")).Id,10) ,logAndStoreUser,error); // profile pic
         $(".ConnectedB").show();
         $(".NotConnectedB").hide();
     }
@@ -630,7 +640,7 @@ function init_UI() {
             click: function () {
                 let code = codeFromForm();
                 
-                let userId = sessionStorage.getItem("UserId");
+                let userId = JSON.parse(sessionStorage.getItem("User")).Id;
                 VERIFY_USER(code, userId,verified, wrongNumber);         
             }
         }]
