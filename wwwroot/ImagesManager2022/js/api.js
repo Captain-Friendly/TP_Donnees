@@ -73,10 +73,13 @@ function GetUser(id,successCallBack,errorCallBack){
     });
 }
 
-function REMOVE_USER(id,errorCallBack){
+function REMOVE_USER(id,token,errorCallBack){
     $.ajax({
         url: accountURL + `/remove/${id}`,
         type: 'GET',
+        headers:{
+            Authorization:token
+        },
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }

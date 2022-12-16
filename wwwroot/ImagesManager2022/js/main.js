@@ -638,6 +638,13 @@ function init_UI() {
         {
             text: "Desinscrire",
             click: function () {
+                let userId = JSON.parse(sessionStorage.getItem("User")).Id;
+                let token = sessionStorage.getItem("Access_token");
+
+                REMOVE_USER(userId,token,error);
+
+                LOGOUT(userId,()=>{getImagesList();},error);
+
                 holdCheckETag = false;
                 $(this).dialog("close");
             }
